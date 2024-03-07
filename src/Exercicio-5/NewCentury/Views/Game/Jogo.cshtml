@@ -1,0 +1,30 @@
+﻿@using NewCentury.Domain.Models.Enum
+@model NewCentury.ViewModels.Temp.SessaoAtualViewModel
+
+@{
+    ViewData["Title"] = "Jogo";
+}
+
+<h2>Jogo de Adivinhação</h2>
+
+<form asp-action="RodadaJogo" method="post">
+    <div class="form-group">
+        <label for="guess">Digite um número:</label>
+        <input type="text" class="form-control" id="guess" name="EscolhaJogador" />
+    </div>
+    <button type="submit" class="btn btn-primary">Confirmar Jogada</button>
+</form>
+
+@if (Model.Situacao == Resultado.AFK)
+{
+    <div id="result">
+        <p>Situação: @Model.Situacao</p>
+    </div>
+}
+
+
+
+@if (Model.Continuiar == "sim")
+{
+    <a asp-action="Jogo" class="btn btn-success">Continuar Jogando</a>
+}

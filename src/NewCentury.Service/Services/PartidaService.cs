@@ -15,12 +15,12 @@ namespace NewCentury.Service.Services
             _historicoTentativaoRepository = historicoTentativaoRepository;
         }
 
-  
 
-        public async Task Adicionar(Partida Partida)
+
+        public async Task<Partida> Adicionar(Partida partida)
         {
-
-            await _PartidaRepository.Adicionar(Partida);
+            await _PartidaRepository.Adicionar(partida);
+            return partida;
         }
 
         public async Task Atualizar(Partida Partida)

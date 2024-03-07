@@ -22,6 +22,12 @@ namespace NewCentury.Configurations
             services.AddScoped<IHistoricoTentativaService, HistoricoTentativaService>();
             services.AddScoped<IHistoricoTentativaRepository, HistoricoTentativaRepository>();
 
+            services.AddScoped<IPartidaService, PartidaService>();
+            services.AddScoped<IPartidaRepository, PartidaRepository>();
+
+            services.AddScoped<IRodadaService, RodadaService>();
+            services.AddScoped<IRodadaRepository, RodadaRepository>();
+
             services.AddScoped<IGameService, GameService>();
 
             return services;

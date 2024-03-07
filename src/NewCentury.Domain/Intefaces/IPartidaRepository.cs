@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NewCentury.Domain.Intefaces
 {
-    public interface IpartidaRepository : IRepository<Partida>
+    public interface IPartidaRepository : IRepository<Partida>
     {
 
     }

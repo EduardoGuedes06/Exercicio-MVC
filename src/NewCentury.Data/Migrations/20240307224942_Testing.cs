@@ -38,8 +38,9 @@ namespace NewCentury.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     QuemComeca = table.Column<string>(type: "varchar(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Vencedor = table.Column<string>(type: "varchar(50)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Vencedor = table.Column<string>(type: "varchar(50)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    numeroRodadas = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +77,10 @@ namespace NewCentury.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EscolhaJogador = table.Column<string>(type: "varchar(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PartidaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    Player = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PartidaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Resultado = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

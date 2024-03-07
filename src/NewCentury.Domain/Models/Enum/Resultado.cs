@@ -9,6 +9,7 @@ namespace NewCentury.Domain.Models.Enum
     public enum Resultado
     {
         SUCCESS,
-        WRONG
+        WRONG,
+        AFK
     }
 }

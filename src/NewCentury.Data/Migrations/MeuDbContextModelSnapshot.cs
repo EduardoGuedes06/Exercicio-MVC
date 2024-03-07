@@ -75,8 +75,10 @@ namespace NewCentury.Data.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Vencedor")
-                        .IsRequired()
                         .HasColumnType("varchar(50)");
+
+                    b.Property<int>("numeroRodadas")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -99,6 +101,13 @@ namespace NewCentury.Data.Migrations
 
                     b.Property<Guid>("PartidaId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("Player")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("Resultado")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

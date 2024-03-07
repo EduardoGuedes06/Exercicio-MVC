@@ -1,6 +1,6 @@
 ﻿namespace NewCentury.ViewModels.Temp
 {
-    public class PartidaViewModel
+    public class PartidaAtualViewModel
     {
         public Guid JogadorId { get; set; }
         public string Dificuldade { get; set; }

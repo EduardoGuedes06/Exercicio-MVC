@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NewCentury.Domain.Intefaces;
 using NewCentury.Domain.Models;
 using NewCentury.Service.Services;
@@ -9,18 +10,26 @@ namespace NewCentury.Controllers
 {
     public class GameController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly IGameService _gameService;
         private readonly IJogadorRepository _jogadorRepository;
         private readonly IJogadorService _jogadorService;
         private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
         private readonly IHistoricoTentativaService _historicoTentativaService;
+        private readonly IPartidaService _partidaService;
+        private readonly IRodadaService _rodadaService;
 
-        public GameController(IGameService gameService, IJogadorRepository jogadorRepository,
+        public GameController(IGameService gameService, IMapper mapper, IJogadorRepository jogadorRepository,
+                                 IPartidaService partidaService,
+                                 IRodadaService rodadaService,
                                  IJogadorService jogadorService,
                                  IHistoricoTentativaRepository historicoTentativaoRepository,
                                  IHistoricoTentativaService historicoTentativaService,
                                  INotificador notificador)
         {
+            _mapper = mapper;
+            _partidaService = partidaService;
+            _rodadaService = rodadaService;
             _gameService = gameService;
             _jogadorService = jogadorService;
             _jogadorRepository = jogadorRepository;
@@ -46,13 +55,13 @@ namespace NewCentury.Controllers
                 jogador = novoJogador;
             }
 
-            return RedirectToAction("Jogar", jogador.Id);
+            return RedirectToAction("Jogar", new { jogadorId = jogador.Id });
         }
 
 
-        public IActionResult Jogar(Guid jogadorId)
+        public async Task<IActionResult> Jogar(Guid jogadorId)
         {
-            var partidaViewModel = new PartidaViewModel
+            var partidaViewModel = new PartidaAtualViewModel
             {
                 JogadorId = jogadorId
             };
@@ -62,84 +71,66 @@ namespace NewCentury.Controllers
         }
 
         [HttpPost]
-        public IActionResult Jogar(PartidaViewModel partidaViewModel)
+        public async Task<IActionResult> JogarAsync(PartidaAtualViewModel partidaViewModel)
         {
             if (ModelState.IsValid)
             {
-                // Aqui você pode realizar qualquer validação adicional dos dados recebidos
-                // Se tudo estiver correto, você pode redirecionar para a próxima etapa
 
-                if (partidaViewModel.QuemComeca == "jogador")
+                var partida = new PartidaViewModel
                 {
-                    return RedirectToAction("JogadorJoga", partidaViewModel);
-                }
-                else if (partidaViewModel.QuemComeca == "maquina")
+                    IdJogador = partidaViewModel.JogadorId,
+                    Dificuldade = partidaViewModel.Dificuldade,
+                    QuemComeca = partidaViewModel.QuemComeca,
+                    numeroRodadas = partidaViewModel.NumeroRodadas,
+                    Rodadas = null,
+                    Vencedor = null
+                };
+
+                
+
+                if (partidaViewModel.QuemComeca == "jogador" || partidaViewModel.QuemComeca == "maquina")
                 {
-                    return RedirectToAction("VezMaquina", partidaViewModel);
+                    var partidaDb = await _partidaService.Adicionar(_mapper.Map<Partida>(partida));
+                    var rodada = new SessaoAtualViewModel
+                    {
+                        partidaId = partidaDb.Id,
+                        rodadaAtual = 0,
+                        Player = partidaViewModel.QuemComeca,
+                        Situacao = Domain.Models.Enum.Resultado.AFK
+
+                    };
+                    return RedirectToAction("Jogo", rodada);
                 }
                 else
                 {
-                    // Lógica para tratamento de erro ou escolha inválida
                     return View("Error");
                 }
             }
             else
             {
-                // Se o modelo não for válido, retorne a mesma view para exibir os erros
                 return View(partidaViewModel);
             }
         }
 
-        public IActionResult JogadorJoga(PartidaViewModel partidaViewModel)
-        {
-            return View(partidaViewModel);
+
+        public async Task<IActionResult> Jogo(SessaoAtualViewModel sessao)
+        {  
+            return View(sessao);
+        
         }
 
-        public async Task<IActionResult> VezMaquina(PartidaViewModel partidaViewModel)
-        {  return View(partidaViewModel);}
+        [HttpPost]
+        public async Task<IActionResult> RodadaJogo(SessaoAtualViewModel sessao)
+        {
 
 
-        //public async Task<IActionResult> VezMaquina(PartidaViewModel viewModel)
-        //{
 
-        //    var escolha = await _gameService.GerarNumeroSecreto(viewModel.Dificuldade);
-        //    viewModel. = machineGuess;
-        //    viewModel.GuessResult = "Sucesso! A máquina adivinhou o número.";
-        //    return View(viewModel);
-        //}
 
-        //public async Task<IActionResult> MaquinaJoga(PartidaViewModel partidaViewModel)
-        //{
-        //    int numeroSecreto = await _gameService.GerarNumeroSecreto(partidaViewModel.Dificuldade);
-        //    bool resultado = false; // Inicializar o resultado como falso
+            return RedirectToAction("Jogo", sessao);
 
-        //    // Simular a tentativa da máquina de adivinhar o número
-        //    for (int tentativa = 1; tentativa <= partidaViewModel.NumeroRodadas; tentativa++)
-        //    {
-        //        if (numeroSecreto == tentativa) // Se a máquina acertar
-        //        {
-        //            resultado = true;
-        //            break; // Encerrar o loop
-        //        }
-        //    }
+        }
 
-        //    // Preparar mensagem de resultado para exibição na view
-        //    string mensagem;
-        //    if (resultado)
-        //    {
-        //        mensagem = "A máquina acertou!";
-        //    }
-        //    else
-        //    {
-        //        mensagem = "A máquina errou!";
-        //    }
 
-        //    // Aguardar um tempo antes de redirecionar para a tela de resultado
-        //    Thread.Sleep(3000); // Espera 3 segundos (tempo para o usuário visualizar a mensagem)
-
-        //    // Redirecionar para a tela de resultado com a mensagem
-        //    return RedirectToAction("Resultado", new { mensagem = mensagem, jogadorId = partidaViewModel.JogadorId });
-        //}
 
 
 
