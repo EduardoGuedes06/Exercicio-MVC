@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewCentury", "NewCentury.csproj", "{65008125-503B-4D6A-9D4F-B8548C70EECE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Aplication", "1 - Aplication", "{1CF9E3AF-4ABC-4D09-959F-6ED3CDBD5220}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65008125-503B-4D6A-9D4F-B8548C70EECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65008125-503B-4D6A-9D4F-B8548C70EECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65008125-503B-4D6A-9D4F-B8548C70EECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65008125-503B-4D6A-9D4F-B8548C70EECE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBA009F5-E6BF-4196-AB28-1B14B839368F}
+	EndGlobalSection
+EndGlobal

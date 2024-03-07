@@ -1,0 +1,48 @@
+﻿@model NewCentury.ViewModels.Temp.PartidaViewModel
+
+<h1>Bem-vindo ao jogo de adivinhação!</h1>
+
+<p>Você escolheu deixar a máquina adivinhar o número.</p>
+
+<div id="guessNumber" style="display: block;">
+    <div class="form-group">
+        <label for="guess">Digite um número:</label>
+        <input type="text" class="form-control" id="guess" name="guess" />
+    </div>
+    <button type="button" class="btn btn-primary" onclick="startGuessing()">Começar Adivinhação</button>
+</div>
+
+<div id="guessingResult" style="display: none;">
+    <h3>A máquina está adivinhando o número...</h3>
+    <p id="countdown">5</p>
+    <p id="machineGuess"></p>
+    <p id="guessResult"></p>
+</div>
+
+<script>
+    function startGuessing() {
+        var guessNumberDiv = document.getElementById("guessNumber");
+        var guessingResultDiv = document.getElementById("guessingResult");
+        guessNumberDiv.style.display = "none";
+        guessingResultDiv.style.display = "block";
+        countdown();
+    }
+
+    function countdown() {
+        var count = 5;
+        var countdownElement = document.getElementById("countdown");
+        var machineGuessElement = document.getElementById("machineGuess");
+        var guessResultElement = document.getElementById("guessResult");
+
+        var interval = setInterval(function () {
+            countdownElement.textContent = count;
+            count--;
+            if (count < 0) {
+                clearInterval(interval);
+                var machineGuess = Math.floor(Math.random() * 100) + 1; // Número aleatório de 1 a 100
+                machineGuessElement.textContent = "Número escolhido pela máquina: " + machineGuess;
+                guessResultElement.textContent = "Sucesso! A máquina adivinhou o número.";
+            }
+        }, 1000);
+    }
+</script>

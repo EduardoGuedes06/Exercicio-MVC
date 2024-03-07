@@ -1,0 +1,29 @@
+﻿@model NewCentury.ViewModels.Temp.PartidaViewModel
+
+<h1>Bem-vindo ao jogo de adivinhação!</h1>
+
+<p>Escolha as configurações para a partida:</p>
+
+<form asp-action="jogar" asp-controller="Game" method="post">
+    <input type="hidden" name="JogadorId" value="@Model.JogadorId" />
+    <div class="form-group">
+        <label for="dificuldade">Dificuldade:</label>
+        <select name="Dificuldade" class="form-control">
+            <option value="facil">Fácil</option>
+            <option value="medio">Médio</option>
+            <option value="dificil">Difícil</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="numeroRodadas">Número de Rodadas:</label>
+        <input type="number" name="NumeroRodadas" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="quemComeca">Quem Começa:</label>
+        <select name="QuemComeca" class="form-control">
+            <option value="jogador">Eu Começo</option>
+            <option value="maquina">Máquina Começa</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Começar</button>
+</form>
