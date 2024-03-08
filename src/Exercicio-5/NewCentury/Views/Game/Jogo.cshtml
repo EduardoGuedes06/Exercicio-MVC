@@ -39,8 +39,6 @@
 
 
     
-    @if (Model.RodadaAtual <= Model.Rodadas)
-    {
         @if(Model.Player == "maquina")
         {
             <form asp-action="RodadaJogoMaquina" method="post">
@@ -49,6 +47,7 @@
 
             <input type="hidden" name="partidaId" value="@Model.partidaId" />
             <input type="hidden" name="Player" value="@Model.Player" />
+            <input type="hidden" name="PlayerInicial" value="@Model.PlayerInicial" />
             <input type="hidden" name="Situacao" value="@Model.Situacao" />
             <input type="hidden" name="Continuar" value="@Model.Continuar" />
             <input type="hidden" name="Dificuldade" value="@Model.Dificuldade" />
@@ -65,9 +64,7 @@
                         <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
                     </div>
                     <div class="card-body">
-                        @if (Model.Player == "maquina")
-                        {
-                            if (Model.EscolhaJogador == Model.EscolhaMaquina)
+                            @if (Model.EscolhaJogador == Model.EscolhaMaquina)
                             {
                                 <p class="card-text text-danger">Você perdeu! A máquina ganhou.</p>
                             }
@@ -75,18 +72,6 @@
                             {
                                 <p class="card-text text-success">Você ganhou! A máquina perdeu.</p>
                             }
-                        }
-                        else if (Model.Player == "jogador")
-                        {
-                            if (Model.EscolhaJogador == Model.EscolhaMaquina)
-                            {
-                                <p class="card-text text-success">Você ganhou! A máquina perdeu.</p>
-                            }
-                            else
-                            {
-                                <p class="card-text text-danger">Você perdeu! A máquina ganhou.</p>
-                            }
-                        }
                         <h5 class="card-title">Valor Jogado</h5>
                         <p class="card-text">Jogador: @Model.EscolhaJogador</p>
                         <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
@@ -100,85 +85,24 @@
                     <label for="guess">Digite um número:</label>
                     <input type="text" class="form-control" id="guess" name="EscolhaJogador" oninput="limitarEntrada()" />
            </div>
+
            <button type="submit" class="btn btn-primary">Confirmar Jogada</button>
            
             <p class="card-text text-danger">Rodada Atual: @Model.RodadaAtual</p>
+
             <p class="card-text text-danger">Numero de Rodadas: @Model.Rodadas</p>
+
         </form>
         }
         @if (Model.Player == "jogador")
         {
             <form asp-action="RodadaJogoJogador" method="post">
 
-                <h3>Voçe terá que adivinha a jogada da maquina</h3>
+                <h3>Voçe tem que adivinhar o Numero Escolhido pela Maquina</h3>
 
                 <input type="hidden" name="partidaId" value="@Model.partidaId" />
                 <input type="hidden" name="Player" value="@Model.Player" />
-                <input type="hidden" name="Situacao" value="@Model.Situacao" />
-                <input type="hidden" name="Continuar" value="@Model.Continuar" />
-                <input type="hidden" name="Dificuldade" value="@Model.Dificuldade" />
-                <input type="hidden" name="Rodadas" value="@Model.Rodadas" />
-                <input type="hidden" name="RodadaAtual" value="@Model.RodadaAtual" />
-
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Valor Jogado</h5>
-                        <p class="card-text">Jogador: @Model.EscolhaJogador</p>
-                        <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
-                    </div>
-                    <div class="card-body">
-                        @if (Model.Player == "maquina")
-                        {
-                            if (Model.EscolhaJogador == Model.EscolhaMaquina)
-                            {
-                                <p class="card-text text-danger">Você perdeu! A máquina ganhou.</p>
-                            }
-                            else
-                            {
-                                <p class="card-text text-success">Você ganhou! A máquina perdeu.</p>
-                            }
-                        }
-                        else if (Model.Player == "jogador")
-                        {
-                            if (Model.EscolhaJogador == Model.EscolhaMaquina)
-                            {
-                                <p class="card-text text-success">Você ganhou! A máquina perdeu.</p>
-                            }
-                            else
-                            {
-                                <p class="card-text text-danger">Você perdeu! A máquina ganhou.</p>
-                            }
-                        }
-                        <h5 class="card-title">Valor Jogado</h5>
-                        <p class="card-text">Jogador: @Model.EscolhaJogador</p>
-                        <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
-                    </div>
-
-
-                </div>
-
-                <div class="form-group">
-                    <label for="guess">Digite um número:</label>
-                    <input type="text" class="form-control" id="guess" name="EscolhaJogador" oninput="limitarEntrada()" />
-                </div>
-                <button type="submit" class="btn btn-primary">Confirmar Jogada</button>
-
-                <p class="card-text text-danger">Rodada Atual: @Model.RodadaAtual</p>
-                <p class="card-text text-danger">Numero de Rodadas: @Model.RodadaAtual</p>
-            </form>
-        }
-
-    }
-    else{
-        @if (Model.Player == "maquina")
-        {
-            <form asp-action="RodadaJogoMaquina" method="post">
-
-                <h3>A maquina tentará adivinha sua Jogada</h3>
-
-                <input type="hidden" name="partidaId" value="@Model.partidaId" />
-                <input type="hidden" name="Player" value="@Model.Player" />
+                <input type="hidden" name="PlayerInicial" value="@Model.PlayerInicial" />
                 <input type="hidden" name="Situacao" value="@Model.Situacao" />
                 <input type="hidden" name="Continuar" value="@Model.Continuar" />
                 <input type="hidden" name="Dificuldade" value="@Model.Dificuldade" />
@@ -195,20 +119,8 @@
                             <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
                         </div>
                         <div class="card-body">
-                            @if (Model.Player == "maquina")
-                            {
-                                if (Model.EscolhaJogador == Model.EscolhaMaquina)
-                                {
-                                    <p class="card-text text-danger">Você perdeu! A máquina ganhou.</p>
-                                }
-                                else
-                                {
-                                    <p class="card-text text-success">Você ganhou! A máquina perdeu.</p>
-                                }
-                            }
-                            else if (Model.Player == "jogador")
-                            {
-                                if (Model.EscolhaJogador == Model.EscolhaMaquina)
+
+                                @if (Model.EscolhaJogador == Model.EscolhaMaquina)
                                 {
                                     <p class="card-text text-success">Você ganhou! A máquina perdeu.</p>
                                 }
@@ -216,7 +128,6 @@
                                 {
                                     <p class="card-text text-danger">Você perdeu! A máquina ganhou.</p>
                                 }
-                            }
                             <h5 class="card-title">Valor Jogado</h5>
                             <p class="card-text">Jogador: @Model.EscolhaJogador</p>
                             <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
@@ -230,14 +141,15 @@
                     <label for="guess">Digite um número:</label>
                     <input type="text" class="form-control" id="guess" name="EscolhaJogador" oninput="limitarEntrada()" />
                 </div>
+
                 <button type="submit" class="btn btn-primary">Confirmar Jogada</button>
 
                 <p class="card-text text-danger">Rodada Atual: @Model.RodadaAtual</p>
+
                 <p class="card-text text-danger">Numero de Rodadas: @Model.Rodadas</p>
+
             </form>
         }
-        
-    }
 
 
 </div>

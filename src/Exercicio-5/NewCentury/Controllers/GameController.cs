@@ -95,6 +95,7 @@ namespace NewCentury.Controllers
                         Situacao = Domain.Models.Enum.Resultado.AFK,
                         Dificuldade = partidaViewModel.Dificuldade,
                         Rodadas = partidaViewModel.NumeroRodadas,
+                        PlayerInicial = partidaViewModel.QuemComeca,
                         RodadaAtual = 1
                     };
                     return RedirectToAction("Jogo", rodada);
@@ -112,8 +113,6 @@ namespace NewCentury.Controllers
 
         public async Task<IActionResult> Jogo(SessaoAtualViewModel sessao)
         {
-            // Você pode persistir os dados aqui se necessário
-            // Exemplo: _partidaService.SalvarSessao(sessao);
 
             return View(sessao);
         }
@@ -123,22 +122,54 @@ namespace NewCentury.Controllers
         {
             sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
             sessao.RodadaAtual = sessao.RodadaAtual + 1;
-            if (sessao.RodadaAtual == sessao.Rodadas){
-                var x = 0;
+
+
+            if (sessao.RodadaAtual == sessao.Rodadas + 1){
+
+                if(sessao.PlayerInicial == "jogador")
+                {
+                    var x = "x";
+
+                    //Final
+                }
+                sessao.EscolhaJogador = 0;
+                sessao.EscolhaMaquina = 0;
+                sessao.Player = "jogador";
+                sessao.RodadaAtual = 1;
+            }
+            else
+            {
+
             }
             
 
             return RedirectToAction("Jogo", sessao);
         }
 
+
+
+
+
+
         [HttpPost]
         public async Task<IActionResult> RodadaJogoJogador(SessaoAtualViewModel sessao)
         {
             sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
             sessao.RodadaAtual = sessao.RodadaAtual + 1;
-            if (sessao.RodadaAtual == sessao.Rodadas)
+
+
+            if (sessao.RodadaAtual == sessao.Rodadas + 1)
             {
-                var x = 0;
+                if (sessao.PlayerInicial == "maquinha")
+                {
+                    var x = "x";
+
+                    //Final
+                }
+                sessao.EscolhaJogador = 0;
+                sessao.EscolhaMaquina = 0;
+                sessao.Player = "maquina";
+                sessao.RodadaAtual = 1;
             }
 
 

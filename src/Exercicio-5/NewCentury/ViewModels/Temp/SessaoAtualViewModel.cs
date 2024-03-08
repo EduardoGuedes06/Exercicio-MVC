@@ -15,6 +15,7 @@ namespace NewCentury.ViewModels.Temp
 
         public string Dificuldade { get; set; }
 
+        public string PlayerInicial { get; set; }
         public int Rodadas { get; set; }
         public int RodadaAtual { get; set; }
 

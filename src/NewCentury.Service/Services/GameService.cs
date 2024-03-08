@@ -32,11 +32,11 @@ namespace NewCentury.Service.Services
             switch (dificuldade)
             {
                 case "facil":
-                    return random.Next(1, 3); // Gera números entre 1 e 2 (exclusivo)
+                    return random.Next(1, 3);
                 case "medio":
-                    return random.Next(1, 6); // Gera números entre 1 e 5 (exclusivo)
+                    return random.Next(1, 6);
                 case "dificil":
-                    return random.Next(1, 11); // Gera números entre 1 e 10 (exclusivo)
+                    return random.Next(1, 11);
                 default:
                     throw new ArgumentException("Dificuldade inválida");
             }
