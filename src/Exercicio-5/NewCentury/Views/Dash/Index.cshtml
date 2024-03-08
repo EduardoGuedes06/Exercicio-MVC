@@ -6,13 +6,13 @@
 <div class="text-center">
     <h1 class="display-4">Bem-vindo</h1>
     <div class="container mt-5">
-        <h2>Bem-vindo ao Painel de Controle, @Model.NomeJogador!</h2>
+        <h2>Bem-vindo ao Painel de Controle</h2>
         <p>Aqui você pode acessar diferentes recursos de Dashboarding.</p>
     </div>
 </div>
 
 <div class="container mt-10">
-    <form asp-action="Filtrar" asp-controller="Dash" method="post" onsubmit="return validarDatas()">
+    <form asp-action="Filtrar" asp-controller="Dash" method="post" onsubmit="return validarDatas()" class="text-center">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -29,25 +29,92 @@
         </div>
         <div class="row">
             <div class="col">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-search"></i> Filtrar
+                </button>
             </div>
         </div>
     </form>
 </div>
 
-<div class="container mt-5">
+<div class="row">
+    <br /><br />
+    </div>
+
+<div class="container">
     <div class="row">
         <div class="col-lg-12">
-            @await Html.PartialAsync("~/Views/Dash/_Tentativas.cshtml")
-        </div>
-        <div class="col-lg-12">
-            @await Html.PartialAsync("~/Views/Dash/_HistoricoPartidas.cshtml")
-        </div>
-        <div class="col-lg-12">
-            @await Html.PartialAsync("~/Views/Dash/_Ranking.cshtml")
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-center align-items-center mt-4 text-center">
+                        <div class="col-2">
+                            <label for="nomeJogador">Nome do Jogador:</label>
+                            <input type="text" class="form-control" id="nomeJogador" name="NomeJogador" value="@Model.FiltroHistoricoNomeJogador">
+                        </div>
+                        <div class="col-3">
+                            <label for="idPartida">Id da Partida:</label>
+                            <input type="text" class="form-control" id="idPartida" name="idPartida" value="@Model.IdPartida">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center">
+                                <h4>Histórico de Tentativas</h4>
+                            </div>
+                            @await Html.PartialAsync("~/Views/Dash/_Tentativas.cshtml")
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center">
+                                <h4>Histórico de Partidas</h4>
+                            </div>
+                            @await Html.PartialAsync("~/Views/Dash/_HistoricoPartidas.cshtml")
+                        </div>
+                    </div>
+                    <div class="row justify-content-center align-items-center mt-4 text-center">
+                        <div class="col-2">
+                            <label for="nomeJogador">Nome do Jogador:</label>
+                            <input type="text" class="form-control" id="nomeJogador" name="NomeJogador" value="@Model.FiltroRankingNomeJogador">
+                        </div>
+                        <div class="col-2">
+                            <label for="dificuldade">Dificuldade:</label>
+                            <select class="form-control" id="dificuldade" name="Dificuldade">
+                                <option value="Todas">Todas</option>
+                                <option value="Fácil">Fácil</option>
+                                <option value="Médio">Médio</option>
+                                <option value="Difícil">Difícil</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <br />
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="text-center">
+                                            <h3>Ranking</h3>
+                                        </div>
+                                        @await Html.PartialAsync("~/Views/Dash/_Ranking.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <div class="container mt-5">
     <div class="row">
