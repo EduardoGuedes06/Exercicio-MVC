@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NewCentury.Data.Repository;
 using NewCentury.Domain.Intefaces;
 using NewCentury.Domain.Models;
 using NewCentury.Service.Services;
@@ -18,11 +19,12 @@ namespace NewCentury.Controllers
         private readonly IHistoricoTentativaService _historicoTentativaService;
         private readonly IPartidaService _partidaService;
         private readonly IPartidaRepository _partidaRepository;
-
+        private readonly IRodadaRepository _rodadaRepository;
         private readonly IRodadaService _rodadaService;
 
         public GameController(IGameService gameService,
-                                 IPartidaRepository partidaRepository, 
+                                 IPartidaRepository partidaRepository,
+                                 IRodadaRepository rodadaRepository,
                                  IMapper mapper, IJogadorRepository jogadorRepository,
                                  IPartidaService partidaService,
                                  IRodadaService rodadaService,
@@ -31,6 +33,7 @@ namespace NewCentury.Controllers
                                  IHistoricoTentativaService historicoTentativaService,
                                  INotificador notificador)
         {
+            _rodadaRepository = rodadaRepository;
             _mapper = mapper;
             _partidaService = partidaService;
             _partidaRepository = partidaRepository;
@@ -127,9 +130,6 @@ namespace NewCentury.Controllers
         {
             sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
             sessao.RodadaAtual = sessao.RodadaAtual + 1;
-
-
-
             if (sessao.EscolhaMaquina != sessao.EscolhaJogador)
                 {
                     sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS;
@@ -140,15 +140,25 @@ namespace NewCentury.Controllers
                     sessao.Situacao = Domain.Models.Enum.Resultado.WRONG;
                     await AuditoriaRodadaAsync(sessao);
                 }
-
-            if (sessao.PlayerInicial == "jogador")
-            {
-
-                await _partidaService.AtualizarVencedor(sessao.partidaId);
-
-            }
-
             if (sessao.RodadaAtual == sessao.Rodadas + 1){
+
+                if (sessao.PlayerInicial == "jogador")
+                {
+
+                    await _partidaService.AtualizarVencedor(sessao.partidaId);
+
+                    var dadosPartida = new FimDeJogoViewModel
+                    {
+                        Vencedor = await _partidaService.CalcularVencedor(sessao.partidaId),
+                        QtdeJogador = await _partidaRepository.ContarResultadosPorVencedorUsuario(sessao.partidaId),
+                        QtdeMaquina = await _partidaRepository.ContarResultadosPorVencedorMaquina(sessao.partidaId),
+                        DuracaoPartida = await _rodadaRepository.CalcularDiferencaDatasEmMinutosPorPartida(sessao.partidaId)
+                    };
+
+
+                    return RedirectToAction("Fim", dadosPartida);
+
+                }
                 sessao.EscolhaJogador = 0;
                 sessao.EscolhaMaquina = 0;
                 sessao.Player = "jogador";
@@ -166,8 +176,6 @@ namespace NewCentury.Controllers
         {
             sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
             sessao.RodadaAtual = sessao.RodadaAtual + 1;
-
-
             if (sessao.EscolhaMaquina == sessao.EscolhaJogador)
                 {
                     sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS;
@@ -178,14 +186,27 @@ namespace NewCentury.Controllers
                     sessao.Situacao = Domain.Models.Enum.Resultado.WRONG;
                     await AuditoriaRodadaAsync(sessao);
                 }
-
-            if(sessao.PlayerInicial == "maquina")
-            {
-                await _partidaService.AtualizarVencedor(sessao.partidaId);
-            }
-
+            
             if (sessao.RodadaAtual == sessao.Rodadas + 1)
             {
+                if (sessao.PlayerInicial == "maquina")
+                {
+                    await _partidaService.AtualizarVencedor(sessao.partidaId);
+
+                    var dadosPartida = new FimDeJogoViewModel
+                    {
+                        Vencedor = await _partidaService.CalcularVencedor(sessao.partidaId),
+                        QtdeJogador = await _partidaRepository.ContarResultadosPorVencedorUsuario(sessao.partidaId),
+                        QtdeMaquina = await _partidaRepository.ContarResultadosPorVencedorMaquina(sessao.partidaId),
+                        DuracaoPartida = await _rodadaRepository.CalcularDiferencaDatasEmMinutosPorPartida(sessao.partidaId)
+                    };
+
+
+                    return RedirectToAction("Fim", dadosPartida);
+
+                }
+
+
                 sessao.EscolhaJogador = 0;
                 sessao.EscolhaMaquina = 0;
                 sessao.Player = "maquina";
@@ -195,7 +216,10 @@ namespace NewCentury.Controllers
         }
 
 
-
+        public IActionResult Fim(FimDeJogoViewModel fim)
+        {
+            return View(fim);
+        }
 
 
 

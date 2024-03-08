@@ -6,6 +6,8 @@ namespace NewCentury.Domain.Intefaces
 {
     public interface IPartidaRepository : IRepository<Partida>
     {
-
+        Task<int> ContarResultadosPorVencedor(Guid id, string vencedor);
+        Task<int> ContarResultadosPorVencedorMaquina(Guid id);
+        Task<int> ContarResultadosPorVencedorUsuario(Guid id);
     }
 }

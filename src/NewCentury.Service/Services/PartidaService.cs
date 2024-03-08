@@ -65,6 +65,40 @@ namespace NewCentury.Service.Services
             await _PartidaRepository.Atualizar(partida);
         }
 
+        public async Task<string> CalcularVencedor(Guid id)
+        {
+            var rodadas = await _rodadaRepository.ObterRodadasPorIdDaPartida(id);
+            var countJ = 0;
+            var countM = 0;
+
+            foreach (var rodada in rodadas)
+            {
+                var resultado = rodada.Resultado;
+                if (resultado == Domain.Models.Enum.Resultado.SUCCESS)
+                {
+                    countJ++;
+                }
+                else
+                {
+                    countM++;
+                }
+            }
+
+            if (countJ > countM)
+            {
+                return "jogador";
+            }
+            else if (countJ < countM)
+            {
+                return "maquina";
+            }
+            else
+            {
+                return "empate";
+            }
+        }
+
+
         public async Task Remover(Guid id)
         {
 

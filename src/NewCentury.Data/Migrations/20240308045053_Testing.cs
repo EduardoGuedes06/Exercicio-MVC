@@ -20,7 +20,8 @@ namespace NewCentury.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +41,8 @@ namespace NewCentury.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Vencedor = table.Column<string>(type: "varchar(50)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    numeroRodadas = table.Column<int>(type: "int", nullable: false)
+                    numeroRodadas = table.Column<int>(type: "int", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,7 +57,8 @@ namespace NewCentury.Data.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     JogadorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NumeroTentativa = table.Column<int>(type: "int", nullable: false),
-                    Resultado = table.Column<int>(type: "int", maxLength: 20, nullable: false)
+                    Resultado = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,7 +83,8 @@ namespace NewCentury.Data.Migrations
                     Player = table.Column<string>(type: "varchar(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PartidaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Resultado = table.Column<int>(type: "int", nullable: false)
+                    Resultado = table.Column<int>(type: "int", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

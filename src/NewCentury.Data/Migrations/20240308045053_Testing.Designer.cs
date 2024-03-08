@@ -11,7 +11,7 @@ using NewCentury.Data.Context;
 namespace NewCentury.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    [Migration("20240308042353_Testing")]
+    [Migration("20240308045053_Testing")]
     partial class Testing
     {
         /// <inheritdoc />
@@ -27,6 +27,9 @@ namespace NewCentury.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("JogadorId")
                         .HasColumnType("char(36)");
@@ -51,6 +54,9 @@ namespace NewCentury.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -65,6 +71,9 @@ namespace NewCentury.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Dificuldade")
                         .IsRequired()
@@ -93,6 +102,9 @@ namespace NewCentury.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("EscolhaJogador")
                         .IsRequired()

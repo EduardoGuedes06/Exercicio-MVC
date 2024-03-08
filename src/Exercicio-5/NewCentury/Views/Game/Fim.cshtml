@@ -1,0 +1,32 @@
+﻿@using NewCentury.Domain.Models.Enum
+@model NewCentury.ViewModels.Temp.FimDeJogoViewModel
+
+@{
+    ViewData["Title"] = "Fim de Jogo";
+}
+
+<style>
+    /* Seu estilo CSS aqui */
+</style>
+
+<h2>Fim de Jogo</h2>
+<div class="container_0">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Vencedor:</h5>
+            <p class="card-text"> <h2>@Model.Vencedor</h2></p>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Quantidade de Jogadas Vencidas pelo Jogador:</h5>
+            <p class="card-text">@Model.QtdeJogador</p>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Quantidade de Jogadas pela Máquina:</h5>
+            <p class="card-text">@Model.QtdeMaquina</p>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Duração da Partida:</h5>
+            <p class="card-text">@Model.DuracaoPartida</p>
+        </div>
+    </div>
+</div>

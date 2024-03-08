@@ -11,6 +11,8 @@ namespace NewCentury.ViewModels.Temp
         public Resultado Situacao { get; set; }
 
         //Marcadores
+
+        public int loop {  get; set; }
         public string Continuar { get; set; }
 
         public string Dificuldade { get; set; }
