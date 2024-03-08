@@ -2,15 +2,50 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<style>
+
+
+    .card_1 {
+        max-width: 1000px; /* Largura máxima do contêiner */
+        margin: auto; /* Centraliza o contêiner na página */
+        padding: 30px;
+        margin-top: 30px;
+        background-color: #fff; /* Adiciona cor de fundo ao formulário */
+        padding: 20px; /* Adiciona preenchimento interno ao formulário */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+
+
+</style>
 
 <div class="container">
-    <div class="row">
-        <div class="col">
-            @await Html.PartialAsync("~/Views/Game/_Entrada.cshtml")
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card_1">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Manual de Regras - Jogo de Adivinhação</h2>
+                    <p>Bem-vindo ao jogo de adivinhação! Aqui estão as regras básicas:</p>
+                    <ul>
+                        <li>O jogo consiste em adivinhar um número escolhido aleatoriamente pela máquina e vice versa.</li>
+                        <li>São permitidas de 1 a 4 rodadas por partida.</li>
+                        <li>O jogador pode escolher entre 3 níveis de dificuldade: fácil, médio e difícil.</li>
+                        <li>Após o término das rodadas, o jogador e a máquina revezam-se para tentar adivinhar o número.</li>
+                        <li>Ao final do jogo, os dados da partida, incluindo o vencedor e o número escolhido, serão exibidos.</li>
+                    </ul>
+                    <p class="mt-4 text-center">Boa sorte e divirta-se!</p>
+
+                    <div class="row">
+                        <div class="col">
+                            @await Html.PartialAsync("~/Views/Game/_Entrada.cshtml")
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

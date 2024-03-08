@@ -33,10 +33,11 @@
 
     <form asp-action="Index" asp-controller="Game" method="post">
         <div class="form-group">
-            <label for="nome">Nome:</label>
-            <input type="text" class="form-control" id="nome" name="Nome" required />
+            <label for="nome"> Nome:</label>
+            <input type="text" class="form-control" id="nome" name="Nome" pattern="[A-Za-z]+" title="Somente letras são permitidas" required />
         </div>
-        <button type="submit" class="btn btn-primary">Entrar</button>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-gamepad"></i></button>
     </form>
+
 
 </div>

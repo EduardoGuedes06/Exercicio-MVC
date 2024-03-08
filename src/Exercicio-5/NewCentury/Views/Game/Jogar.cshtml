@@ -45,17 +45,19 @@
 
         <form asp-action="Jogar" asp-controller="Game" method="post">
             <input type="hidden" name="JogadorId" value="@Model.JogadorId" />
-            <div class="form-group">
-                <label for="dificuldade">Dificuldade:</label>
-                <select name="Dificuldade" class="form-control">
-                    <option value="facil">Fácil</option>
-                    <option value="medio">Médio</option>
-                    <option value="dificil">Difícil</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="numeroRodadas">Número de Rodadas:</label>
-                <input type="number" name="NumeroRodadas" class="form-control" value="1" min="1" max="4" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="dificuldade">Dificuldade:</label>
+                    <select name="Dificuldade" class="form-control">
+                        <option value="facil">Fácil</option>
+                        <option value="medio">Médio</option>
+                        <option value="dificil">Difícil</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="numeroRodadas">Número de Rodadas:</label>
+                    <input type="number" name="NumeroRodadas" class="form-control" value="1" min="1" max="4" />
+                </div>
             </div>
             <div class="form-group">
                 <label for="quemComeca">Quem Começa:</label>
@@ -64,8 +66,9 @@
                     <option value="maquina">Máquina Começa</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Começar</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-gamepad"></i></button>
         </form>
     </div>
+
 </body>
 </html>
