@@ -11,6 +11,8 @@ namespace NewCentury.MVC.Configurations
         {
             CreateMap<PartidaViewModel, Partida>().ReverseMap();
             CreateMap<RodadaViewModel, Rodada>().ReverseMap();
+
+
             CreateMap<Jogador, JogadorViewModel>().ReverseMap();
             CreateMap<HistoricoTentativas, HistoricoTentativasViewModel>().ReverseMap();
         }

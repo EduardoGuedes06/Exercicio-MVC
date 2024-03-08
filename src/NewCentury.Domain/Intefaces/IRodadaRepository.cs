@@ -6,6 +6,6 @@ namespace NewCentury.Domain.Intefaces
 {
     public interface IRodadaRepository : IRepository<Rodada>
     {
-
+        Task<IEnumerable<Rodada>> ObterRodadasPorIdDaPartida(Guid partidaId);
     }
 }

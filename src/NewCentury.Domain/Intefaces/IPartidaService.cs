@@ -6,5 +6,7 @@ namespace NewCentury.Domain.Intefaces
     {
         Task<Partida> Adicionar(Partida partida);
         Task Atualizar(Partida Partida);
+        Task AtualizarVencedor(Guid id);
+        Task<Partida> ObterPorId(Guid id);
     }
 }

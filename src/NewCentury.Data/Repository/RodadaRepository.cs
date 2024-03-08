@@ -12,8 +12,12 @@ namespace NewCentury.Data.Repository
         {
 
         }
-
-
+        public async Task<IEnumerable<Rodada>> ObterRodadasPorIdDaPartida(Guid partidaId)
+        {
+            return await Db.Rodadas
+                .Where(r => r.PartidaId == partidaId)
+                .ToListAsync();
+        }
 
 
     }

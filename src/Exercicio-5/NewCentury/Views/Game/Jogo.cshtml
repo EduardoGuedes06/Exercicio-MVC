@@ -180,28 +180,3 @@
         }
     }
 </script>
-
-
-
-@if (Model.Situacao == Resultado.AFK)
-{
-    <div id="result">
-        <p>Situação: @Model.Situacao</p>
-    </div>
-}
-
-@if (Model.Situacao == Resultado.SUCCESS)
-{
-    <div id="parabens">
-        <h3>Parabéns! Você acertou o número.</h3>
-        <a asp-action="Jogo" class="btn btn-success">Continuar Jogando</a>
-    </div>
-}
-
-@if (Model.Situacao == Resultado.WRONG)
-{
-    <div id="perdeu">
-        <h3>Que pena! Você errou o número.</h3>
-        <a asp-action="Jogo" class="btn btn-danger">Tentar Novamente</a>
-    </div>
-}

@@ -17,9 +17,13 @@ namespace NewCentury.Controllers
         private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
         private readonly IHistoricoTentativaService _historicoTentativaService;
         private readonly IPartidaService _partidaService;
+        private readonly IPartidaRepository _partidaRepository;
+
         private readonly IRodadaService _rodadaService;
 
-        public GameController(IGameService gameService, IMapper mapper, IJogadorRepository jogadorRepository,
+        public GameController(IGameService gameService,
+                                 IPartidaRepository partidaRepository, 
+                                 IMapper mapper, IJogadorRepository jogadorRepository,
                                  IPartidaService partidaService,
                                  IRodadaService rodadaService,
                                  IJogadorService jogadorService,
@@ -29,6 +33,7 @@ namespace NewCentury.Controllers
         {
             _mapper = mapper;
             _partidaService = partidaService;
+            _partidaRepository = partidaRepository;
             _rodadaService = rodadaService;
             _gameService = gameService;
             _jogadorService = jogadorService;
@@ -124,14 +129,26 @@ namespace NewCentury.Controllers
             sessao.RodadaAtual = sessao.RodadaAtual + 1;
 
 
-            if (sessao.RodadaAtual == sessao.Rodadas + 1){
 
-                if(sessao.PlayerInicial == "jogador")
+            if (sessao.EscolhaMaquina != sessao.EscolhaJogador)
                 {
-                    var x = "x";
-
-                    //Final
+                    sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS;
+                    await AuditoriaRodadaAsync(sessao);
                 }
+            else
+                {
+                    sessao.Situacao = Domain.Models.Enum.Resultado.WRONG;
+                    await AuditoriaRodadaAsync(sessao);
+                }
+
+            if (sessao.PlayerInicial == "jogador")
+            {
+
+                await _partidaService.AtualizarVencedor(sessao.partidaId);
+
+            }
+
+            if (sessao.RodadaAtual == sessao.Rodadas + 1){
                 sessao.EscolhaJogador = 0;
                 sessao.EscolhaMaquina = 0;
                 sessao.Player = "jogador";
@@ -140,16 +157,9 @@ namespace NewCentury.Controllers
             else
             {
 
-            }
-            
-
+            }        
             return RedirectToAction("Jogo", sessao);
         }
-
-
-
-
-
 
         [HttpPost]
         public async Task<IActionResult> RodadaJogoJogador(SessaoAtualViewModel sessao)
@@ -158,21 +168,29 @@ namespace NewCentury.Controllers
             sessao.RodadaAtual = sessao.RodadaAtual + 1;
 
 
+            if (sessao.EscolhaMaquina == sessao.EscolhaJogador)
+                {
+                    sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS;
+                    await AuditoriaRodadaAsync(sessao);
+                }
+            else
+                {
+                    sessao.Situacao = Domain.Models.Enum.Resultado.WRONG;
+                    await AuditoriaRodadaAsync(sessao);
+                }
+
+            if(sessao.PlayerInicial == "maquina")
+            {
+                await _partidaService.AtualizarVencedor(sessao.partidaId);
+            }
+
             if (sessao.RodadaAtual == sessao.Rodadas + 1)
             {
-                if (sessao.PlayerInicial == "maquinha")
-                {
-                    var x = "x";
-
-                    //Final
-                }
                 sessao.EscolhaJogador = 0;
                 sessao.EscolhaMaquina = 0;
                 sessao.Player = "maquina";
                 sessao.RodadaAtual = 1;
             }
-
-
             return RedirectToAction("Jogo", sessao);
         }
 
@@ -182,6 +200,22 @@ namespace NewCentury.Controllers
 
 
 
+
+
+
+        public async Task AuditoriaRodadaAsync(SessaoAtualViewModel sessao)
+        {
+            var rodadaAtual = new RodadaViewModel
+            {
+                PartidaId = sessao.partidaId,
+                EscolhaJogador = sessao.EscolhaJogador,
+                EscolhaMaquina = sessao.EscolhaMaquina,
+                Resultado = sessao.Situacao,
+                Player = sessao.Player
+            };
+            await _rodadaService.Adicionar(_mapper.Map<Rodada>(rodadaAtual));
+
+        }
 
 
     }

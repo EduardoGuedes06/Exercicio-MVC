@@ -11,7 +11,7 @@ using NewCentury.Data.Context;
 namespace NewCentury.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    [Migration("20240307224942_Testing")]
+    [Migration("20240308042353_Testing")]
     partial class Testing
     {
         /// <inheritdoc />

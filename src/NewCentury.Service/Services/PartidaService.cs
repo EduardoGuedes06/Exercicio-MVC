@@ -6,11 +6,13 @@ namespace NewCentury.Service.Services
     public class PartidaService : BaseService, IPartidaService
     {
         private readonly IPartidaRepository _PartidaRepository;
+        private readonly IRodadaRepository _rodadaRepository;
         private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
-        public PartidaService(IPartidaRepository PartidaRepository,
+        public PartidaService(IPartidaRepository PartidaRepository, IRodadaRepository rodadaRepository,
                                  IHistoricoTentativaRepository historicoTentativaoRepository,
                                  INotificador notificador) : base(notificador)
         {
+            _rodadaRepository = rodadaRepository;
             _PartidaRepository = PartidaRepository;
             _historicoTentativaoRepository = historicoTentativaoRepository;
         }
@@ -23,12 +25,45 @@ namespace NewCentury.Service.Services
             return partida;
         }
 
+
+
+        public async Task<Partida> ObterPorId(Guid id)
+        {
+            var partida = await _PartidaRepository.ObterPorId(id);
+            return partida;
+        }
+
         public async Task Atualizar(Partida Partida)
         {
 
             await _PartidaRepository.Atualizar(Partida);
         }
 
+        public async Task AtualizarVencedor(Guid id)
+        {
+
+            Partida partida = await ObterPorId(id);
+
+
+            var rodadas = await _rodadaRepository.ObterRodadasPorIdDaPartida(id);
+            var vencedor = "";
+
+            var countJ = 0;
+            var countM = 0;
+
+            foreach (var rodada in rodadas)
+            {
+                var resultado = rodada.Resultado;
+                if(resultado == Domain.Models.Enum.Resultado.SUCCESS) { countJ++; }
+                else { countM++; }
+            }
+            if(countJ > countM) { vencedor = "jogador"; }
+            if(countJ < countM) { vencedor = "maquina"; }
+            else if(countJ == countM) { vencedor = "empate"; }
+
+            partida.Vencedor = vencedor;
+            await _PartidaRepository.Atualizar(partida);
+        }
 
         public async Task Remover(Guid id)
         {
