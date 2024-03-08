@@ -1,9 +1,42 @@
 ﻿@model NewCentury.ViewModels.Temp.PartidaAtualViewModel
 
-<form asp-action="Index" asp-controller="Game" method="post">
-    <div class="form-group">
-        <label for="nome">Nome:</label>
-        <input type="text" class="form-control" id="nome" name="Nome" />
-    </div>
-    <button type="submit" class="btn btn-primary">Entrar</button>
-</form>
+<style>
+
+
+    .container_0 {
+        max-width: 500px; /* Largura máxima do contêiner */
+        margin: auto; /* Centraliza o contêiner na página */
+        padding: 30px;
+    }
+
+    h1, h2, h3 {
+        text-align: center;
+    }
+
+    form {
+        margin-top: 30px;
+        background-color: #fff; /* Adiciona cor de fundo ao formulário */
+        padding: 20px; /* Adiciona preenchimento interno ao formulário */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+</style>
+<div class="container_0">
+
+    <form asp-action="Index" asp-controller="Game" method="post">
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" class="form-control" id="nome" name="Nome" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+
+</div>

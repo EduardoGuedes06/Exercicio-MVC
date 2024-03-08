@@ -75,7 +75,6 @@ namespace NewCentury.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var partida = new PartidaViewModel
                 {
                     IdJogador = partidaViewModel.JogadorId,
@@ -86,18 +85,17 @@ namespace NewCentury.Controllers
                     Vencedor = null
                 };
 
-                
-
                 if (partidaViewModel.QuemComeca == "jogador" || partidaViewModel.QuemComeca == "maquina")
                 {
                     var partidaDb = await _partidaService.Adicionar(_mapper.Map<Partida>(partida));
                     var rodada = new SessaoAtualViewModel
                     {
                         partidaId = partidaDb.Id,
-                        rodadaAtual = 0,
                         Player = partidaViewModel.QuemComeca,
-                        Situacao = Domain.Models.Enum.Resultado.AFK
-
+                        Situacao = Domain.Models.Enum.Resultado.AFK,
+                        Dificuldade = partidaViewModel.Dificuldade,
+                        Rodadas = partidaViewModel.NumeroRodadas,
+                        RodadaAtual = 1
                     };
                     return RedirectToAction("Jogo", rodada);
                 }
@@ -112,24 +110,40 @@ namespace NewCentury.Controllers
             }
         }
 
-
         public async Task<IActionResult> Jogo(SessaoAtualViewModel sessao)
-        {  
+        {
+            // Você pode persistir os dados aqui se necessário
+            // Exemplo: _partidaService.SalvarSessao(sessao);
+
             return View(sessao);
-        
         }
 
         [HttpPost]
-        public async Task<IActionResult> RodadaJogo(SessaoAtualViewModel sessao)
+        public async Task<IActionResult> RodadaJogoMaquina(SessaoAtualViewModel sessao)
         {
+            sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
+            sessao.RodadaAtual = sessao.RodadaAtual + 1;
+            if (sessao.RodadaAtual == sessao.Rodadas){
+                var x = 0;
+            }
+            
 
+            return RedirectToAction("Jogo", sessao);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> RodadaJogoJogador(SessaoAtualViewModel sessao)
+        {
+            sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
+            sessao.RodadaAtual = sessao.RodadaAtual + 1;
+            if (sessao.RodadaAtual == sessao.Rodadas)
+            {
+                var x = 0;
+            }
 
 
             return RedirectToAction("Jogo", sessao);
-
         }
-
 
 
 
