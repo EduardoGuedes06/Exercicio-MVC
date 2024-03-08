@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NewCentury.Domain.Models;
 using NewCentury.ViewModels;
+using NewCentury.ViewModels.Dash;
 
 
 namespace NewCentury.MVC.Configurations
@@ -11,10 +12,7 @@ namespace NewCentury.MVC.Configurations
         {
             CreateMap<PartidaViewModel, Partida>().ReverseMap();
             CreateMap<RodadaViewModel, Rodada>().ReverseMap();
-
-
             CreateMap<Jogador, JogadorViewModel>().ReverseMap();
-            CreateMap<HistoricoTentativas, HistoricoTentativasViewModel>().ReverseMap();
         }
     }
 }

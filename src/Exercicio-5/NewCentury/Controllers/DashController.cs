@@ -5,6 +5,7 @@ using NewCentury.Domain.Intefaces;
 using NewCentury.Domain.Models;
 using NewCentury.Service.Services;
 using NewCentury.ViewModels;
+using NewCentury.ViewModels.Dash;
 using NewCentury.ViewModels.Temp;
 
 namespace NewCentury.Controllers
@@ -45,10 +46,39 @@ namespace NewCentury.Controllers
             _historicoTentativaService = historicoTentativaService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(DashViewModel? filtro)
         {
-            return View();
+            if (filtro.DataInicial == DateTime.MinValue)
+            {
+                filtro.DataInicial = DateTime.Today.AddDays(-2);
+            }
+
+            if (filtro.DataFinal == DateTime.MinValue)
+            {
+                filtro.DataFinal = DateTime.Today.AddDays(-1);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            return View(filtro);
         }
+
+        public IActionResult Filtrar(DashViewModel filtro)
+        {
+            ViewBag.Filtro = filtro;
+            return View("Index", filtro);
+        }
+
 
 
 
