@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="~/css/metisMenu.css">
     <link rel="stylesheet" href="~/css/owl.carousel.min.css">
     <link rel="stylesheet" href="~/css/slicknav.min.css">
+
+
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- others css -->
@@ -123,9 +125,9 @@
                             <li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
                                 <ul class="collapse">
-                                    <li><a class="nav-link text-white" asp-area="" asp-controller="Dash" asp-action="Index">Ranking</a></li>
-                                    <li><a class="nav-link text-white" asp-area="" asp-controller="Dash" asp-action="Index">Historico de tentativas</a></li>
-                                    <li><a class="nav-link text-white" asp-area="" asp-controller="Dash" asp-action="Index">Historico de partidas</a></li>
+                                        <li><a class="nav-link text-white" asp-area="" asp-controller="Dash" asp-action="Ranking">Ranking</a></li>
+                                        <li><a class="nav-link text-white" asp-area="" asp-controller="Dash" asp-action="HistoricoTentativas">Historico de tentativas</a></li>
+                                        <li><a class="nav-link text-white" asp-area="" asp-controller="Dash" asp-action="HistoricoPartidas">Historico de partidas</a></li>
                                 </ul>
 
                             </li>
@@ -147,7 +149,6 @@
 
             </div>
         </div>
-
         <div class="page-title-area">
             <div class="row align-items-center">
                 <div class="col-sm-6">
@@ -162,12 +163,12 @@
                 <div class="col-sm-6 clearfix">
                     <div class="row">
                         <br />
-                        <br />
+                            <br />
+                            <br />
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="main-content-inner">
             <div class="row">
                 <div class="col-12">
@@ -184,8 +185,6 @@
                 </div>
             </div>
         </div>
-
-
         <div class="container">
             <partial name="_CookieConsentPartial" />
             <main role="main" class="pb-3">
@@ -231,8 +230,15 @@
     <!-- all pie chart -->
     <script src="~/js/pie-chart.js"></script>
     <!-- others plugins -->
-    <script src="~/js/plugins.js"></script>
+    
     <script src="~/js/scripts.js"></script>
+    <!-- Start datatable js -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+
 
 </body>
 </html>

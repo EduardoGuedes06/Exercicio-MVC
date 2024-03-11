@@ -14,5 +14,7 @@ namespace NewCentury.Domain.Models
         public string ? Vencedor { get; set; }
         public int numeroRodadas { get; set; }
         public IEnumerable<Rodada>? Rodadas { get; set; }
+
+        public Jogador Jogador { get; set; }
     }
 }

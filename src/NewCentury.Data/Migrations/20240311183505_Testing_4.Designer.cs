@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewCentury.Data.Context;
 
@@ -10,9 +11,11 @@ using NewCentury.Data.Context;
 namespace NewCentury.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    partial class MeuDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240311183505_Testing_4")]
+    partial class Testing_4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -21,6 +21,10 @@ namespace NewCentury.Data.Mappings
             builder.Property(c => c.Vencedor)
                 .HasColumnType("varchar(50)");
 
+            builder.HasMany(p => p.Rodadas)
+                .WithOne(r => r.Partida)
+                .HasForeignKey(r => r.PartidaId);
+
             builder.ToTable("Partida");
         }
     }

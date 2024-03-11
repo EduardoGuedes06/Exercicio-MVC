@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewCentury.Data.Context;
 
@@ -10,9 +11,11 @@ using NewCentury.Data.Context;
 namespace NewCentury.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    partial class MeuDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240311183256_Testing_3")]
+    partial class Testing_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,6 +115,10 @@ namespace NewCentury.Data.Migrations
                     b.Property<string>("EscolhaMaquina")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Jogador")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<Guid>("PartidaId")
                         .HasColumnType("char(36)");

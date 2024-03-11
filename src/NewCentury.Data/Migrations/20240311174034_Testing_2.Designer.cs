@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewCentury.Data.Context;
 
@@ -10,9 +11,11 @@ using NewCentury.Data.Context;
 namespace NewCentury.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    partial class MeuDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240311174034_Testing_2")]
+    partial class Testing_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,8 +94,6 @@ namespace NewCentury.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdJogador");
-
                     b.ToTable("Partida", (string)null);
                 });
 
@@ -112,6 +113,10 @@ namespace NewCentury.Data.Migrations
                     b.Property<string>("EscolhaMaquina")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Jogador")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<Guid>("PartidaId")
                         .HasColumnType("char(36)");
@@ -140,16 +145,6 @@ namespace NewCentury.Data.Migrations
                     b.Navigation("Jogador");
                 });
 
-            modelBuilder.Entity("NewCentury.Domain.Models.Partida", b =>
-                {
-                    b.HasOne("NewCentury.Domain.Models.Jogador", "Jogador")
-                        .WithMany("Partidas")
-                        .HasForeignKey("IdJogador")
-                        .IsRequired();
-
-                    b.Navigation("Jogador");
-                });
-
             modelBuilder.Entity("NewCentury.Domain.Models.Rodada", b =>
                 {
                     b.HasOne("NewCentury.Domain.Models.Partida", "Partida")
@@ -158,11 +153,6 @@ namespace NewCentury.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Partida");
-                });
-
-            modelBuilder.Entity("NewCentury.Domain.Models.Jogador", b =>
-                {
-                    b.Navigation("Partidas");
                 });
 
             modelBuilder.Entity("NewCentury.Domain.Models.Partida", b =>

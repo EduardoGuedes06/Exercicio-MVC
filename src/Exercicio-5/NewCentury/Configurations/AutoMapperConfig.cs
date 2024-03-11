@@ -10,8 +10,12 @@ namespace NewCentury.MVC.Configurations
     {
         public AutoMapperConfig()
         {
-            CreateMap<PartidaViewModel, Partida>().ReverseMap();
+            //Rodada
+            CreateMap<HistoricoTentativasViewModel, Rodada>().ReverseMap();          
             CreateMap<RodadaViewModel, Rodada>().ReverseMap();
+
+            //Partida
+            CreateMap<PartidaViewModel, Partida>().ReverseMap();
             CreateMap<Jogador, JogadorViewModel>().ReverseMap();
         }
     }

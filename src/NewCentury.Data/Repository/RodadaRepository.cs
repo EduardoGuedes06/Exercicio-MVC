@@ -12,6 +12,23 @@ namespace NewCentury.Data.Repository
         {
 
         }
+
+        //Obter dados Dash
+
+        public async Task<List<Rodada>> ObterRodadasComPartidasEJogadoresPorPeriodo(DateTime dataInicial, DateTime dataFinal)
+        {
+            dataInicial = dataInicial.Date;
+            dataFinal = dataFinal.Date.AddDays(1).AddTicks(-1);
+
+            return await Db.Rodadas
+                .Include(r => r.Partida)
+                    .ThenInclude(p => p.Jogador)
+                .Where(r => r.DataCadastro >= dataInicial && r.DataCadastro <= dataFinal)
+                .ToListAsync();
+        }
+
+
+
         public async Task<string> CalcularDiferencaDatasEmMinutosPorPartida(Guid id)
         {
             var rodadas = await Db.Rodadas

@@ -7,6 +7,7 @@ using NewCentury.Service.Services;
 using NewCentury.ViewModels;
 using NewCentury.ViewModels.Dash;
 using NewCentury.ViewModels.Temp;
+using System.Collections.Generic;
 
 namespace NewCentury.Controllers
 {
@@ -46,7 +47,27 @@ namespace NewCentury.Controllers
             _historicoTentativaService = historicoTentativaService;
         }
 
-        public IActionResult Index(DashViewModel? filtro)
+        public async Task<IActionResult> HistoricoTentativas(DashViewModel? filtro)
+        {
+            if (filtro.DataInicial == DateTime.MinValue)
+            {
+                filtro.DataInicial = DateTime.Today.AddDays(-2);
+            }
+
+            if (filtro.DataFinal == DateTime.MinValue)
+            {
+                filtro.DataFinal = DateTime.Today;
+            }
+
+            var tentativas = _mapper.Map<IEnumerable<HistoricoTentativasViewModel>>(await _rodadaRepository.ObterRodadasComPartidasEJogadoresPorPeriodo(filtro.DataInicial, filtro.DataFinal));
+
+
+            filtro.Tentativas = tentativas.ToList();
+
+            return View(filtro);
+        }
+
+        public IActionResult HistoricoPartidas(DashViewModel? filtro)
         {
             if (filtro.DataInicial == DateTime.MinValue)
             {
@@ -58,29 +79,35 @@ namespace NewCentury.Controllers
                 filtro.DataFinal = DateTime.Today.AddDays(-1);
             }
 
+            return View(filtro);
+        }
 
+        public IActionResult FiltrarHistoricoPartidas(DashViewModel filtro)
+        {
+            ViewBag.Filtro = filtro;
+            return View("HistoricoPartidas", filtro);
+        }
 
+        public IActionResult Ranking(DashViewModel? filtro)
+        {
+            if (filtro.DataInicial == DateTime.MinValue)
+            {
+                filtro.DataInicial = DateTime.Today.AddDays(-2);
+            }
 
-
-
-
-
-
-
-
-
+            if (filtro.DataFinal == DateTime.MinValue)
+            {
+                filtro.DataFinal = DateTime.Today.AddDays(-1);
+            }
 
             return View(filtro);
         }
 
-        public IActionResult Filtrar(DashViewModel filtro)
+        public IActionResult FiltrarRanking(DashViewModel filtro)
         {
             ViewBag.Filtro = filtro;
-            return View("Index", filtro);
+            return View("Ranking", filtro);
         }
-
-
-
 
 
     }

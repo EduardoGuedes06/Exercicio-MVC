@@ -20,6 +20,7 @@ namespace NewCentury.ViewModels.Temp
         public string PlayerInicial { get; set; }
         public int Rodadas { get; set; }
         public int RodadaAtual { get; set; }
+        public string NomeJogador { get; set; }
 
 
 

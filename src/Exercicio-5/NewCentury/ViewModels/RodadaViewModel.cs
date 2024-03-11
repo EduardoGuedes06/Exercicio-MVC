@@ -9,6 +9,7 @@ namespace NewCentury.Domain.Models
     {
         [Key]
         public Guid Id { get; set; }
+        public string Jogador { get; set; }
         public int EscolhaMaquina { get; set; }
         public int EscolhaJogador { get; set; }
         public Resultado Resultado { get; set; }

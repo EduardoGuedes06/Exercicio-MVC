@@ -83,6 +83,8 @@ namespace NewCentury.Controllers
         {
             if (ModelState.IsValid)
             {
+                var jogador = await _jogadorRepository.ObterPorId(partidaViewModel.JogadorId);
+
                 var partida = new PartidaViewModel
                 {
                     IdJogador = partidaViewModel.JogadorId,
@@ -96,8 +98,10 @@ namespace NewCentury.Controllers
                 if (partidaViewModel.QuemComeca == "jogador" || partidaViewModel.QuemComeca == "maquina")
                 {
                     var partidaDb = await _partidaService.Adicionar(_mapper.Map<Partida>(partida));
+
                     var rodada = new SessaoAtualViewModel
                     {
+                        NomeJogador = jogador.Nome,
                         partidaId = partidaDb.Id,
                         Player = partidaViewModel.QuemComeca,
                         Situacao = Domain.Models.Enum.Resultado.AFK,
@@ -149,6 +153,7 @@ namespace NewCentury.Controllers
 
                     var dadosPartida = new FimDeJogoViewModel
                     {
+                        NomeJogador = sessao.NomeJogador,
                         Vencedor = await _partidaService.CalcularVencedor(sessao.partidaId),
                         QtdeJogador = await _partidaRepository.ContarResultadosPorVencedorUsuario(sessao.partidaId),
                         QtdeMaquina = await _partidaRepository.ContarResultadosPorVencedorMaquina(sessao.partidaId),
@@ -195,6 +200,7 @@ namespace NewCentury.Controllers
 
                     var dadosPartida = new FimDeJogoViewModel
                     {
+                        NomeJogador = sessao.NomeJogador,
                         Vencedor = await _partidaService.CalcularVencedor(sessao.partidaId),
                         QtdeJogador = await _partidaRepository.ContarResultadosPorVencedorUsuario(sessao.partidaId),
                         QtdeMaquina = await _partidaRepository.ContarResultadosPorVencedorMaquina(sessao.partidaId),
@@ -220,12 +226,6 @@ namespace NewCentury.Controllers
         {
             return View(fim);
         }
-
-
-
-
-
-
 
         public async Task AuditoriaRodadaAsync(SessaoAtualViewModel sessao)
         {
