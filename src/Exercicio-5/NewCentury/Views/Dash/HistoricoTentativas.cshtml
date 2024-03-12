@@ -73,7 +73,7 @@
                                        data-filter-control="true"
                                        class="table table-hover table-striped"
                                        data-height="500">
-                                <thead class="table-light">
+                                    <thead class="table-light">
                                         <tr>
                                             <th class="col-sm-1" data-field="PartidaID" data-filter-control="input" data-sortable="true">Partida ID</th>
                                             <th class="col-sm-1" data-field="Jogador" data-filter-control="input" data-sortable="true">Nome</th>
@@ -177,11 +177,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Bootstrap Paginator JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"></script>
 
 
@@ -189,21 +186,14 @@
 
     <script>
         $(document).ready(function () {
-            // Chamar a função para calcular as informações em tempo real e atualizar os gráficos
             calcularInformacoesTempoReal();
-
-            // Observar mudanças na tabela
             var observer = new MutationObserver(function (mutations) {
                 calcularInformacoesTempoReal();
             });
-
-            // Configurar opções para o observador
             var observerOptions = {
                 childList: true,
                 subtree: true
             };
-
-            // Observar mudanças no elemento com ID "tentativasTableBody"
             observer.observe(document.getElementById('tentativasTableBody'), observerOptions);
         });
 
@@ -215,8 +205,6 @@
             var totalDificil = 0;
             var dadosPorDia = {};
             var datasUnicas = new Set();
-
-            // Cálculo de vitórias, derrotas e dificuldades
             $('#tentativasTableBody tr').each(function () {
                 var resultado = $(this).find('td:nth-child(7)').text();
                 var dificuldade = $(this).find('td:nth-child(6)').text();
@@ -248,47 +236,46 @@
                 }
             });
 
-
-
-            debugger
-
-
-
-
-
             var dadosFormatados = Object.keys(dadosPorDia).sort().map(function (data) {
                 return { x: formatarData(data), y: [dadosPorDia[data].acertos, dadosPorDia[data].erros] };
             });
 
-            // Atualizar diretamente as séries de dados para o gráfico
-            chart.updateSeries([{ name: 'Acertos', data: dadosFormatados }, { name: 'Erros', data: dadosFormatados }]);
+            var dadosAcertos = dadosFormatados.map(function (item) {
+                return { x: item.x, y: item.y[0] };
+            });
+
+            var dadosErros = dadosFormatados.map(function (item) {
+                return { x: item.x, y: item.y[1] };
+            });
+
+            chart.updateSeries([{ name: 'Acertos', data: dadosAcertos }, { name: 'Erros', data: dadosErros }]);
+
 
 
             chartDificuldades.updateSeries([totalFacil, totalMedio, totalDificil]);
             chartResultado.updateSeries([totalSuccess, totalWrong]);
         }
 
-        // Função para formatar a data no padrão "dd/mm/aaaa GMT"
         function formatarData(data) {
             var dataObj = new Date(data);
             var dia = dataObj.getDate();
-            var mes = dataObj.getMonth() + 1; // Os meses são indexados a partir de 0
+            var mes = dataObj.getMonth() + 1;
             var ano = dataObj.getFullYear();
             return (dia < 10 ? '0' : '') + dia + '/' + (mes < 10 ? '0' : '') + mes + '/' + ano + ' GMT';
         }
 
     </script>
 
-
+    @*  Grafico Esquerda *@
     <script>
         var options = {
-            series: [0, 0], // Começa com 0 vitórias e 0 derrotas
+            series: [0, 0],
             chart: {
                 width: 320,
                 type: 'pie',
             },
             labels: ['Vitória', 'Derrota'],
-            colors: ['#2ecc71', '#e74c3c'], // Vitória verde, Derrota vermelha
+            colors: ['#2ecc71', '#e74c3c'],
             legend: {
                 position: 'bottom',
                 horizontalAlign: 'center'
@@ -297,7 +284,7 @@
                 pie: {
                     dataLabels: {
                         style: {
-                            fontSize: '14px', // Aumenta o tamanho da fonte
+                            fontSize: '14px',
                             fontWeight: 600
                         }
                     }
@@ -317,15 +304,16 @@
         chartResultado.render();
     </script>
 
+    @*  Grafico Direita *@
     <script>
         var optionsDificuldades = {
-            series: [0, 0, 0], // Começa com 0 para Fácil, Médio e Difícil
+            series: [0, 0, 0],
             chart: {
                 width: 320,
                 type: 'pie',
             },
             labels: ['Fácil', 'Médio', 'Difícil'],
-            colors: ['#2ecc71', '#3498db', '#e74c3c'], // Cores para Fácil, Médio e Difícil
+            colors: ['#2ecc71', '#3498db', '#e74c3c'],
             legend: {
                 position: 'bottom',
                 horizontalAlign: 'center'
@@ -334,7 +322,7 @@
                 pie: {
                     dataLabels: {
                         style: {
-                            fontSize: '14px', // Aumenta o tamanho da fonte
+                            fontSize: '14px',
                             fontWeight: 600
                         }
                     }
@@ -354,6 +342,7 @@
         chartDificuldades.render();
     </script>
 
+    @*  Grafico Meio *@
     <script>
         var options = {
             series: [{
@@ -391,7 +380,7 @@
             },
             xaxis: {
                 type: 'datetime',
-                categories: [], // As categorias serão preenchidas dinamicamente com as datas reais
+                categories: [],
             },
             legend: {
                 position: 'right',
@@ -405,7 +394,6 @@
         var chart = new ApexCharts(document.querySelector("#chart_3"), options);
         chart.render();
     </script>
-
 
     @*  Filtragem Data *@
     <script>

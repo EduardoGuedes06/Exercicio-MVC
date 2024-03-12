@@ -9,5 +9,6 @@ namespace NewCentury.Domain.Intefaces
         Task<int> ContarResultadosPorVencedor(Guid id, string vencedor);
         Task<int> ContarResultadosPorVencedorMaquina(Guid id);
         Task<int> ContarResultadosPorVencedorUsuario(Guid id);
+        Task<List<Partida>> ObterPartidasComRodadasEJogadoresPorPeriodo(DateTime dataInicial, DateTime dataFinal);
     }
 }

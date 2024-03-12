@@ -26,9 +26,6 @@ namespace NewCentury.Data.Repository
                 .Where(r => r.DataCadastro >= dataInicial && r.DataCadastro <= dataFinal)
                 .ToListAsync();
         }
-
-
-
         public async Task<string> CalcularDiferencaDatasEmMinutosPorPartida(Guid id)
         {
             var rodadas = await Db.Rodadas
@@ -37,17 +34,12 @@ namespace NewCentury.Data.Repository
 
             if (rodadas == null || rodadas.Count == 0)
             {
-                return "00:00:00"; // Se não houver rodadas, retorna 00:00:00
+                return "00:00:00";
             }
-
             var dataMinima = rodadas.Min(r => r.DataCadastro);
             var dataMaxima = rodadas.Max(r => r.DataCadastro);
-
-            var diferenca = dataMaxima.Subtract(dataMinima); // Calcula a diferença entre as datas
-
-            // Formata a diferença para retornar apenas horas, minutos e segundos
+            var diferenca = dataMaxima.Subtract(dataMinima);
             var diferencaFormatada = $"{diferenca.Hours:00}:{diferenca.Minutes:00}:{diferenca.Seconds:00}";
-
             return diferencaFormatada;
         }
 

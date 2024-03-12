@@ -13,8 +13,8 @@ namespace NewCentury.Domain.Models
         public string QuemComeca { get; set; }
         public string ? Vencedor { get; set; }
         public int numeroRodadas { get; set; }
+        public DateTime DataFim { get; set; }
         public IEnumerable<Rodada>? Rodadas { get; set; }
-
         public Jogador Jogador { get; set; }
     }
 }

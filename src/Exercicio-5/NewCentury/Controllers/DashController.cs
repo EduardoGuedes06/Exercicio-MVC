@@ -59,7 +59,7 @@ namespace NewCentury.Controllers
                 filtro.DataFinal = DateTime.Today;
             }
 
-            var tentativas = _mapper.Map<IEnumerable<HistoricoTentativasViewModel>>(await _rodadaRepository.ObterRodadasComPartidasEJogadoresPorPeriodo(filtro.DataInicial, filtro.DataFinal));
+            var tentativas = _mapper.Map<IEnumerable<RodadaViewModel>>(await _rodadaRepository.ObterRodadasComPartidasEJogadoresPorPeriodo(filtro.DataInicial, filtro.DataFinal));
 
 
             filtro.Tentativas = tentativas.ToList();
@@ -67,7 +67,7 @@ namespace NewCentury.Controllers
             return View(filtro);
         }
 
-        public IActionResult HistoricoPartidas(DashViewModel? filtro)
+        public async Task<IActionResult> HistoricoPartidasAsync(DashViewModel? filtro)
         {
             if (filtro.DataInicial == DateTime.MinValue)
             {
@@ -79,14 +79,14 @@ namespace NewCentury.Controllers
                 filtro.DataFinal = DateTime.Today.AddDays(-1);
             }
 
+            var partidas = _mapper.Map<IEnumerable<PartidaViewModel>>(await _partidaRepository.ObterPartidasComRodadasEJogadoresPorPeriodo(filtro.DataInicial, filtro.DataFinal));
+
+
+            filtro.Partidas = partidas.ToList();
+
             return View(filtro);
         }
 
-        public IActionResult FiltrarHistoricoPartidas(DashViewModel filtro)
-        {
-            ViewBag.Filtro = filtro;
-            return View("HistoricoPartidas", filtro);
-        }
 
         public IActionResult Ranking(DashViewModel? filtro)
         {

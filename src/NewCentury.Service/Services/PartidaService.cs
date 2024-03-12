@@ -62,6 +62,7 @@ namespace NewCentury.Service.Services
             else if(countJ == countM) { vencedor = "empate"; }
 
             partida.Vencedor = vencedor;
+            partida.DataFim = DateTime.Now;
             await _PartidaRepository.Atualizar(partida);
         }
 

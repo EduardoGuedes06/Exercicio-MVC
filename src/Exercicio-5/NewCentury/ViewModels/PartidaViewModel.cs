@@ -15,9 +15,10 @@ namespace NewCentury.Domain.Models
         public string Dificuldade { get; set; }
         public string QuemComeca { get; set; }
         public string? Vencedor { get; set; }
-
         public int numeroRodadas { get; set; }
-
+        public Jogador Jogador { get; set; }
+        public DateTime DataCadastro { get; set; }
+        public DateTime DataFim { get; set; }
         public IEnumerable<RodadaViewModel>? Rodadas  { get; set; }
     }
 }

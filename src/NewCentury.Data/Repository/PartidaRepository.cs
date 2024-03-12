@@ -14,6 +14,20 @@ namespace NewCentury.Data.Repository
 
         }
 
+        //Obter dados Dash
+        public async Task<List<Partida>>ObterPartidasComRodadasEJogadoresPorPeriodo(DateTime dataInicial, DateTime dataFinal)
+        {
+            dataInicial = dataInicial.Date;
+            dataFinal = dataFinal.Date.AddDays(1).AddTicks(-1);
+
+            return await Db.Partidas
+                   .Include(p => p.Rodadas)
+                   .Include(r => r.Jogador)
+                   .Where(p => p.DataCadastro >= dataInicial && p.DataCadastro <= dataFinal)
+                   .ToListAsync();
+
+        }
+
         public async Task<int> ContarResultadosPorVencedor(Guid id, string vencedor)
         {
             if (vencedor != "maquina" && vencedor != "usuario")

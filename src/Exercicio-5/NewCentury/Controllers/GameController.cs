@@ -90,7 +90,7 @@ namespace NewCentury.Controllers
                     IdJogador = partidaViewModel.JogadorId,
                     Dificuldade = partidaViewModel.Dificuldade,
                     QuemComeca = partidaViewModel.QuemComeca,
-                    numeroRodadas = partidaViewModel.NumeroRodadas,
+                    numeroRodadas = partidaViewModel.NumeroRodadas,                
                     Rodadas = null,
                     Vencedor = null
                 };
