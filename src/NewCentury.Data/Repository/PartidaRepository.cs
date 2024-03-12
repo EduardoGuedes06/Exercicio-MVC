@@ -23,7 +23,7 @@ namespace NewCentury.Data.Repository
             return await Db.Partidas
                    .Include(p => p.Rodadas)
                    .Include(r => r.Jogador)
-                   .Where(p => p.DataCadastro >= dataInicial && p.DataCadastro <= dataFinal)
+                   .Where(p => p.DataCadastro >= dataInicial && p.DataCadastro <= dataFinal && !string.IsNullOrEmpty(p.Vencedor))
                    .ToListAsync();
 
         }

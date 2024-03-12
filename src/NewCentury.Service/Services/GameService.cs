@@ -25,11 +25,11 @@ namespace NewCentury.Service.Services
             Random random = new Random();
             switch (dificuldade)
             {
-                case "facil":
+                case "FACIL":
                     return random.Next(1, 3);
-                case "medio":
+                case "MEDIO":
                     return random.Next(1, 6);
-                case "dificil":
+                case "DIFICIL":
                     return random.Next(1, 11);
                 default:
                     throw new ArgumentException("Dificuldade inválida");
