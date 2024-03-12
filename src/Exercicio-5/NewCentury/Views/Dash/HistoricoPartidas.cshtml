@@ -67,17 +67,17 @@
                             <table id="table"
                                    data-toggle="table"
                                    data-filter-control="true"
-                                   class="table table-hover table-striped"
+                                   class="table table-hover"
                                    data-height="500">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="col-sm-1" data-field="Id" data-filter-control="input" data-sortable="true">Id</th>
-                                        <th class="col-sm-1" data-field="Jogador" data-filter-control="input" data-sortable="true">Jogador</th>
-                                        <th class="col-sm-1" data-field="Rodadas" data-filter-control="input" data-sortable="true">Rodadas</th>
-                                        <th class="col-sm-1" data-field="DataJogada" data-filter-control="input" data-sortable="true">Data da jogada</th>
-                                        <th class="col-sm-1" data-field="Tempo" data-filter-control="input" data-sortable="true">Tempo de Partida</th>
-                                        <th class="col-sm-1" data-field="Dificuldade" data-filter-control="input" data-sortable="true">Dificuldade</th>
-                                        <th class="col-sm-1" data-field="Vencedor" data-filter-control="input" data-sortable="true">Vencedor</th>
+                                        <th class="col-sm-1 text-center" data-field="Id" data-filter-control="input" data-sortable="true">Id</th>
+                                        <th class="col-sm-1 text-center" data-field="Jogador" data-filter-control="input" data-sortable="true">Jogador</th>
+                                        <th class="col-sm-1 text-center" data-field="Rodadas" data-filter-control="select" data-sortable="true">Rodadas</th>
+                                        <th class="col-sm-1 text-center" data-field="DataJogada" data-filter-control="input" data-sortable="true">Data da jogada</th>
+                                        <th class="col-sm-1 text-center" data-field="Tempo" data-filter-control="input" data-sortable="true">Tempo de Partida</th>
+                                        <th class="col-sm-1 text-center" data-field="Dificuldade" data-filter-control="select" data-sortable="true">Dificuldade</th>
+                                        <th class="col-sm-1 text-center" data-field="Vencedor" data-filter-control="select" data-sortable="true">Vencedor</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tentativasTableBody">
@@ -93,7 +93,10 @@
                                                 @Html.DisplayFor(modelItem => partidaIdAbreviado)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Jogador.Nome)
+                                                @{
+                                                    string nome = item.Jogador.Nome.ToString() + ".";
+                                                }
+                                                @Html.DisplayFor(modelItem => nome)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.numeroRodadas)
@@ -102,17 +105,23 @@
                                                 @Html.DisplayFor(modelItem => item.DataCadastro)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.DataFim)
+                                                @{
+                                                    TimeSpan diferenca = item.DataFim - item.DataCadastro;
+                                                    string formato = $"{diferenca:mm\\:ss}";
+                                                }
+                                                @Html.DisplayFor(modelItem => formato)
                                             </td>
                                             <td>
                                                 @{
                                                     string dificuldade = item.Dificuldade.ToString().ToUpper();
                                                 }
-
                                                 @Html.DisplayFor(modelItem => dificuldade)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Vencedor)
+                                                @{
+                                                    string vencedor = item.Vencedor.ToString().ToUpper();
+                                                }
+                                                @Html.DisplayFor(modelItem => vencedor)
                                             </td>
                                         </tr>
                                     }
@@ -126,21 +135,16 @@
     </div>
 </div>
 
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="row mt-4">
-                <div class="col-lg-12">
-                    <h4>Comentários</h4>
-                    <p>Adicione aqui seus comentários ou qualquer outra informação adicional.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
+
+
+
+
+
+
+
+
+
     <script>
         function validarDatas() {
             var dataInicial = document.getElementById("dataInicial").value;

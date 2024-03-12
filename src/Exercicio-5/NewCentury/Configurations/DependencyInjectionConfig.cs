@@ -19,9 +19,6 @@ namespace NewCentury.Configurations
             services.AddScoped<IJogadorService, JogadorService>();
             services.AddScoped<IJogadorRepository, JogadorRepository>();
 
-            services.AddScoped<IHistoricoTentativaService, HistoricoTentativaService>();
-            services.AddScoped<IHistoricoTentativaRepository, HistoricoTentativaRepository>();
-
             services.AddScoped<IPartidaService, PartidaService>();
             services.AddScoped<IPartidaRepository, PartidaRepository>();
 

@@ -6,13 +6,10 @@ namespace NewCentury.Service.Services
     public class JogadorService : BaseService, IJogadorService
     {
         private readonly IJogadorRepository _jogadorRepository;
-        private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
         public JogadorService(IJogadorRepository jogadorRepository,
-                                 IHistoricoTentativaRepository historicoTentativaoRepository,
                                  INotificador notificador) : base(notificador)
         {
             _jogadorRepository = jogadorRepository;
-            _historicoTentativaoRepository = historicoTentativaoRepository;
         }
 
   
@@ -44,6 +41,34 @@ namespace NewCentury.Service.Services
         {
 
             await _jogadorRepository.Remover(id);
+        }
+
+        public async Task<string> ObterClassificacao(double taxaVitoria)
+        {
+            if (taxaVitoria >= 0.9)
+            {
+                return "S";
+            }
+            else if (taxaVitoria >= 0.8)
+            {
+                return "A";
+            }
+            else if (taxaVitoria >= 0.7)
+            {
+                return "B";
+            }
+            else if (taxaVitoria >= 0.6)
+            {
+                return "C";
+            }
+            else if (taxaVitoria >= 0.5)
+            {
+                return "D";
+            }
+            else
+            {
+                return "E";
+            }
         }
 
         public void Dispose()

@@ -7,14 +7,11 @@ namespace NewCentury.Service.Services
     {
         private readonly IPartidaRepository _PartidaRepository;
         private readonly IRodadaRepository _rodadaRepository;
-        private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
         public PartidaService(IPartidaRepository PartidaRepository, IRodadaRepository rodadaRepository,
-                                 IHistoricoTentativaRepository historicoTentativaoRepository,
                                  INotificador notificador) : base(notificador)
         {
             _rodadaRepository = rodadaRepository;
             _PartidaRepository = PartidaRepository;
-            _historicoTentativaoRepository = historicoTentativaoRepository;
         }
 
 

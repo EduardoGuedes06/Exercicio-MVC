@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewCentury.Data.Context;
 
@@ -10,9 +11,11 @@ using NewCentury.Data.Context;
 namespace NewCentury.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    partial class MeuDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240312041227_Testing_new_Compilation_partidas")]
+    partial class Testing_new_Compilation_partidas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,13 +38,14 @@ namespace NewCentury.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Resultado")
+                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("JogadorId");
 
-                    b.ToTable("HistoricoTentativas");
+                    b.ToTable("HistoricoTentativas", (string)null);
                 });
 
             modelBuilder.Entity("NewCentury.Domain.Models.Jogador", b =>

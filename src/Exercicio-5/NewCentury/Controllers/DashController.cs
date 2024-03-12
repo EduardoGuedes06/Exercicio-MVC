@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NewCentury.Data.Repository;
 using NewCentury.Domain.Intefaces;
 using NewCentury.Domain.Models;
+using NewCentury.Domain.Models.Enum;
 using NewCentury.Service.Services;
 using NewCentury.ViewModels;
 using NewCentury.ViewModels.Dash;
@@ -17,8 +18,6 @@ namespace NewCentury.Controllers
         private readonly IGameService _gameService;
         private readonly IJogadorRepository _jogadorRepository;
         private readonly IJogadorService _jogadorService;
-        private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
-        private readonly IHistoricoTentativaService _historicoTentativaService;
         private readonly IPartidaService _partidaService;
         private readonly IPartidaRepository _partidaRepository;
         private readonly IRodadaRepository _rodadaRepository;
@@ -31,8 +30,6 @@ namespace NewCentury.Controllers
                                  IPartidaService partidaService,
                                  IRodadaService rodadaService,
                                  IJogadorService jogadorService,
-                                 IHistoricoTentativaRepository historicoTentativaoRepository,
-                                 IHistoricoTentativaService historicoTentativaService,
                                  INotificador notificador)
         {
             _rodadaRepository = rodadaRepository;
@@ -43,8 +40,7 @@ namespace NewCentury.Controllers
             _gameService = gameService;
             _jogadorService = jogadorService;
             _jogadorRepository = jogadorRepository;
-            _historicoTentativaoRepository = historicoTentativaoRepository;
-            _historicoTentativaService = historicoTentativaService;
+
         }
 
         public async Task<IActionResult> HistoricoTentativas(DashViewModel? filtro)
@@ -67,7 +63,7 @@ namespace NewCentury.Controllers
             return View(filtro);
         }
 
-        public async Task<IActionResult> HistoricoPartidasAsync(DashViewModel? filtro)
+        public async Task<IActionResult> HistoricoPartidas(DashViewModel? filtro)
         {
             if (filtro.DataInicial == DateTime.MinValue)
             {
@@ -76,7 +72,7 @@ namespace NewCentury.Controllers
 
             if (filtro.DataFinal == DateTime.MinValue)
             {
-                filtro.DataFinal = DateTime.Today.AddDays(-1);
+                filtro.DataFinal = DateTime.Today;
             }
 
             var partidas = _mapper.Map<IEnumerable<PartidaViewModel>>(await _partidaRepository.ObterPartidasComRodadasEJogadoresPorPeriodo(filtro.DataInicial, filtro.DataFinal));
@@ -88,8 +84,13 @@ namespace NewCentury.Controllers
         }
 
 
-        public IActionResult Ranking(DashViewModel? filtro)
+        public async Task<IActionResult> Ranking(DashViewModel? filtro)
         {
+            if (filtro == null)
+            {
+                filtro = new DashViewModel(); // Certifica-se de que filtro não é nulo
+            }
+
             if (filtro.DataInicial == DateTime.MinValue)
             {
                 filtro.DataInicial = DateTime.Today.AddDays(-2);
@@ -97,18 +98,50 @@ namespace NewCentury.Controllers
 
             if (filtro.DataFinal == DateTime.MinValue)
             {
-                filtro.DataFinal = DateTime.Today.AddDays(-1);
+                filtro.DataFinal = DateTime.Today;
             }
+
+
+            var partidas = _mapper.Map<IEnumerable<PartidaViewModel>>(await _partidaRepository.ObterPartidasComRodadasEJogadoresPorPeriodo(filtro.DataInicial, filtro.DataFinal));
+            var rodadasPorJogador = partidas.GroupBy(tentativa => tentativa.Jogador.Nome);
+
+
+            var classifiedUsers = new List<UserClassificateViewModel>();
+            foreach (var jogadorGroup in rodadasPorJogador)
+            {
+                var playerName = jogadorGroup.Key;
+                var playerScores = new List<RankingUserViewModel>();
+                var rodadasPorDificuldade = jogadorGroup.SelectMany(partida => partida.Rodadas)
+                                                        .GroupBy(rodada => rodada.Partida.Dificuldade);
+                foreach (var dificuldadeGroup in rodadasPorDificuldade)
+                {
+                    var dificuldade = dificuldadeGroup.Key;
+                    var totalRodadas = dificuldadeGroup.Count();
+                    var vitorias = dificuldadeGroup.Count(rodada => rodada.Resultado == Resultado.SUCCESS);
+                    var taxaVitoria = totalRodadas > 0 ? (double)vitorias / totalRodadas : 0.0;
+                    var classificacao = await _jogadorService.ObterClassificacao(taxaVitoria);
+                    playerScores.Add(new RankingUserViewModel
+                    {
+                        Classification = classificacao,
+                        Dificuldade = dificuldade,
+                        TaxaAcertos = taxaVitoria.ToString("P0")
+                    });
+                }
+                classifiedUsers.Add(new UserClassificateViewModel
+                {
+                    Name = playerName,
+                    ScoreUser = playerScores
+                });
+            }
+
+            var rankingViewModel = new RankingDashViewModel
+            {
+                User = classifiedUsers
+            };
+            filtro.Ranking = rankingViewModel;
 
             return View(filtro);
         }
-
-        public IActionResult FiltrarRanking(DashViewModel filtro)
-        {
-            ViewBag.Filtro = filtro;
-            return View("Ranking", filtro);
-        }
-
 
     }
 }

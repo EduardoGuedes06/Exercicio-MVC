@@ -75,13 +75,13 @@
                                        data-height="500">
                                     <thead class="table-light">
                                         <tr>
-                                            <th class="col-sm-1" data-field="PartidaID" data-filter-control="input" data-sortable="true">Partida ID</th>
-                                            <th class="col-sm-1" data-field="Jogador" data-filter-control="input" data-sortable="true">Nome</th>
-                                            <th class="col-sm-1" data-field="EscolhaMaquina" data-filter-control="input" data-sortable="true">Máquina</th>
-                                            <th class="col-sm-1" data-field="EscolhaJogador" data-filter-control="input" data-sortable="true">Jogador</th>
-                                            <th class="col-sm-1" data-field="DataJogada" data-filter-control="input" data-sortable="true">Data da jogada</th>
-                                            <th class="col-sm-1" data-field="Dificuldade" data-filter-control="input" data-sortable="true">Dificuldade</th>
-                                            <th class="col-sm-1" data-field="Resultado" data-filter-control="input" data-sortable="true">Resultado</th>
+                                            <th class="col-sm-1 text-center" data-field="PartidaID" data-filter-control="input" data-sortable="true">Partida ID</th>
+                                            <th class="col-sm-1 text-center" data-field="Jogador" data-filter-control="input" data-sortable="true">Nome</th>
+                                            <th class="col-sm-1 text-center" data-field="EscolhaMaquina" data-filter-control="input" data-sortable="true">Máquina</th>
+                                            <th class="col-sm-1 text-center" data-field="EscolhaJogador" data-filter-control="input" data-sortable="true">Jogador</th>
+                                            <th class="col-sm-1 text-center" data-field="DataJogada" data-filter-control="input" data-sortable="true">Data da jogada</th>
+                                        <th class="col-sm-1 text-center" data-field="Dificuldade" data-filter-control="select" data-sortable="true">Dificuldade</th>
+                                        <th class="col-sm-1 text-center" data-field="Resultado" data-filter-control="select" data-sortable="true">Resultado</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tentativasTableBody">
@@ -97,7 +97,11 @@
                                                     @Html.DisplayFor(modelItem => partidaIdAbreviado)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Partida.Jogador.Nome)
+
+                                                    @{
+                                                        string nome = item.Partida.Jogador.Nome.ToString() + ".";
+                                                    }
+                                                    @Html.DisplayFor(modelItem => nome)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.EscolhaMaquina)
@@ -149,10 +153,6 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <br /><br />
-    </div>
-
     <style>
         #chart_1 div, #chart_2 div{
             margin:auto
@@ -161,19 +161,6 @@
 
 </div>
 
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="row mt-4">
-                <div class="col-lg-12">
-                    <h4>Comentários</h4>
-                    <p>Adicione aqui seus comentários ou qualquer outra informação adicional.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
@@ -347,10 +334,10 @@
         var options = {
             series: [{
                 name: 'Acertos',
-                data: [] // Os dados serão atualizados dinamicamente
+                data: []
             }, {
                 name: 'Erros',
-                data: [] // Os dados serão atualizados dinamicamente
+                data: []
             }],
             chart: {
                 type: 'bar',

@@ -7,18 +7,12 @@ namespace NewCentury.Service.Services
     {
         private readonly IJogadorRepository _jogadorRepository;
         private readonly IJogadorService _jogadorService;
-        private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
-        private readonly IHistoricoTentativaService _historicoTentativaService;
         public GameService(IJogadorRepository jogadorRepository,
                                  IJogadorService jogadorService,
-                                 IHistoricoTentativaRepository historicoTentativaoRepository,
-                                 IHistoricoTentativaService historicoTentativaService,
                                  INotificador notificador) : base(notificador)
         {
             _jogadorService = jogadorService;
             _jogadorRepository = jogadorRepository;
-            _historicoTentativaoRepository = historicoTentativaoRepository;
-            _historicoTentativaService = historicoTentativaService;
         }
 
         public void Dispose()

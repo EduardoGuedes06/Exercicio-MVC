@@ -6,13 +6,10 @@ namespace NewCentury.Service.Services
     public class RodadaService : BaseService, IRodadaService
     {
         private readonly IRodadaRepository _RodadaRepository;
-        private readonly IHistoricoTentativaRepository _historicoTentativaoRepository;
         public RodadaService(IRodadaRepository RodadaRepository,
-                                 IHistoricoTentativaRepository historicoTentativaoRepository,
                                  INotificador notificador) : base(notificador)
         {
             _RodadaRepository = RodadaRepository;
-            _historicoTentativaoRepository = historicoTentativaoRepository;
         }
 
   

@@ -6,6 +6,7 @@ namespace NewCentury.Domain.Intefaces
     {
         Task Adicionar(Jogador jogador);
         Task Atualizar(Jogador jogador);
+        Task<string> ObterClassificacao(double taxaVitoria);
         Task Remover(Guid id);
     }
 }

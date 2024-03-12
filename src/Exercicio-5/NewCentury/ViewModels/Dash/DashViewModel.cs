@@ -8,6 +8,7 @@ namespace NewCentury.ViewModels.Dash
         public DateTime DataFinal { get; set; }
         public IEnumerable<RodadaViewModel>? Tentativas { get; set; }
         public IEnumerable<PartidaViewModel>? Partidas { get; set; }
+        public RankingDashViewModel? Ranking {  get; set; }
 
     }
 }
