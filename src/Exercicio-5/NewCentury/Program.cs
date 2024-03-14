@@ -13,6 +13,7 @@ builder.Configuration
     .AddJsonFile("appsettings.json", true, true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
     .AddEnvironmentVariables();
+
 builder.Services.AddDbContext<MeuDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("connection");
@@ -21,11 +22,17 @@ builder.Services.AddDbContext<MeuDbContext>(options =>
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 builder.Services.AddMvcConfiguration();
 builder.Services.ResolveDependencies();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".NewCentury.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -42,7 +49,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

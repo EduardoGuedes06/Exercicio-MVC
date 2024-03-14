@@ -230,7 +230,7 @@
                     totalDificil++;
                 }
             });
-
+            debugger
             var dadosFormatados = Object.keys(dadosPorDia).sort().map(function (data) {
                 return { x: formatarData(data), y: [dadosPorDia[data].acertos, dadosPorDia[data].erros] };
             });
@@ -246,9 +246,11 @@
             chart.updateSeries([{ name: 'Acertos', data: dadosAcertos }, { name: 'Erros', data: dadosErros }]);
 
 
-
+            debugger
             chartDificuldades.updateSeries([totalFacil, totalMedio, totalDificil]);
             chartResultado.updateSeries([totalSuccess, totalWrong]);
+
+
         }
 
         function formatarData(data) {

@@ -39,13 +39,23 @@
         }
     </style>
 </head>
+<br />
+<br />
 <h2 class="text-center">Fim de Jogo</h2>
 
 <div class="container_0 mt-5">
-    <div class="card">
+    <div class="card text-center">
         <div class="card-body">
-            <h5 class="card-title">Vencedor:</h5>
-            <p class="card-text"><h2>@Model.Vencedor</h2></p>
+            <h5 class="card-title">Vencedor da Partida:</h5>
+            @if (Model.Vencedor == "maquina")
+            {
+                <p class="card-text"><strong style="text-transform: uppercase; color:red; font-size: 22px">@Model.Vencedor</strong></p>
+            }
+            else
+            {
+
+                <p class="card-text"><strong style="text-transform: uppercase; color:green; font-size: 22px;">@Model.NomeJogador</strong></p>
+            }
         </div>
         <div class="card-body">
             <h5 class="card-title">Quantidade de Jogadas Vencidas pelo Jogador:</h5>
@@ -59,8 +69,9 @@
             <h5 class="card-title">Duração da Partida:</h5>
             <p class="card-text">@Model.DuracaoPartida</p>
         </div>
-        <div class="card-body text-center">
+        <div class="card-body">
             <a href="@Url.Action("Ranking", "Dash")" class="btn btn-dark mb-3">Ranking</a>
         </div>
     </div>
+
 </div>

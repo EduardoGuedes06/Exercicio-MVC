@@ -24,6 +24,7 @@ namespace NewCentury.Data.Repository
                 .Include(r => r.Partida)
                     .ThenInclude(p => p.Jogador)
                 .Where(r => r.DataCadastro >= dataInicial && r.DataCadastro <= dataFinal)
+                .Where(r => !string.IsNullOrEmpty(r.Partida.Vencedor))
                 .ToListAsync();
         }
         public async Task<string> CalcularDiferencaDatasEmMinutosPorPartida(Guid id)

@@ -42,7 +42,7 @@
 
 
 
-<form asp-action="RodadaJogoJogador" method="post">
+<form asp-action="RodadaJogo" method="post">
 
 
                 @if (Model.Player == "jogador")
@@ -58,16 +58,16 @@
                 <input type="hidden" name="Player" value="@Model.Player" />
                 <input type="hidden" name="PlayerInicial" value="@Model.PlayerInicial" />
                 <input type="hidden" name="Situacao" value="@Model.Situacao" />
-                <input type="hidden" name="Continuar" value="@Model.Continuar" />
+                <input type="hidden" name="UltimaJogadaMaquina" value="@Model.UltimaJogadaMaquina" />
                 <input type="hidden" name="Dificuldade" value="@Model.Dificuldade" />
                 <input type="hidden" name="Rodadas" value="@Model.Rodadas" />
                 <input type="hidden" name="RodadaAtual" value="@Model.RodadaAtual" />
                 <input type="hidden" name="RodadaAntiga" value="@Model.RodadaAntiga" />
-                <input type="hidden" name="NomeJogador" value="@Model.NomeJogador" />
                 <input type="hidden" name="MostrarModal" value="@Model.MostrarModal" />
                 <input type="hidden" name="QtdeJogador" value="@Model.QtdeJogador" />
                 <input type="hidden" name="QtdeMaquina" value="@Model.QtdeMaquina" />
                 <input type="hidden" name="loop" value="@Model.loop" />
+        <input type="hidden" name="NomeJogador" value="@Model.NomeJogador" />
 
                 <div class="row">
                     <br />
@@ -140,9 +140,9 @@
                         <button type="submit" class="btn btn-dark mb-3">Confirmar</i></button>
                     </div>
                 </div>
-                <p class="card-text text-danger">Rodada Atual: @Model.RodadaAtual</p>
-
-                <p class="card-text text-danger">Numero de Rodadas: @Model.Rodadas</p>
+                <div class="d-flex justify-content-center">
+                    <p class="card-text text-danger mr-3">Rodada @Model.RodadaAtual/@Model.Rodadas</p>
+                </div>
 
             </form>
 
@@ -159,19 +159,44 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <h5 class="card-title">Vencedor da Rodada:</h5>
-                <p class="card-text"><h2>@Model.VencedorRodadaAtual</h2></p>
+            <div class="modal-body text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Vencedor da Rodada:</h5>
+                        @if (Model.VencedorRodadaAtual == "maquina")
+                        {
+                            <p class="card-text"><strong style="text-transform: uppercase; color:red; font-size: 22px">@Model.VencedorRodadaAtual</strong></p>
+                        }
+                        else{
 
-                <h5 class="card-title">Quantidade de Vítorias do Jogador:</h5>
-                <p class="card-text">@Model.QtdeJogador</p>
-
-                <h5 class="card-title">Quantidade de Vítorias da Máquina:</h5>
-                <p class="card-text">@Model.QtdeMaquina</p>
+                            <p class="card-text"><strong style="text-transform: uppercase; color:green; font-size: 22px;">@Model.NomeJogador</strong></p>
+                        }
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Número Jogado pela Máquina:</h5>
+                        <p class="card-text" style="font-size: 20px;">@Model.UltimaJogadaMaquina</p>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Quantidade de Vitórias do Jogador:</h5>
+                        <p class="card-text">@Model.QtdeJogador</p>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Quantidade de Vitórias da Máquina:</h5>
+                        <p class="card-text">@Model.QtdeMaquina</p>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">      
+
+            <div class="modal-footer text-center">
                 <button type="button" class="btn btn-secondary" onclick="fecharModal()">Continuar</button>
             </div>
+
         </div>
     </div>
 </div>
@@ -221,9 +246,6 @@
 
     function fecharModal() {
         $('#Modal').modal('hide');
-
-        var menuBotao = document.getElementById('MenuBotao');
-        menuBotao.click();
     }
 
 </script>
