@@ -51,18 +51,8 @@ namespace NewCentury.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string nome)
         {
-            var jogador = await _jogadorRepository.ObterJogadorPorNome(nome.ToUpper());
-            if (jogador == null)
-            {
-                var novoJogador = new Jogador
-                {
-                    Nome = nome.ToUpper(),
-                };
-                await _jogadorService.Adicionar(novoJogador);
-                jogador = novoJogador;
-            }
-
-            return RedirectToAction("Jogar", new { jogadorId = jogador.Id });
+            var jogadorId = await _jogadorService.AdicionarJogador(nome);
+            return RedirectToAction("Jogar", new { jogadorId = jogadorId });
         }
 
         //Verifica Jogador

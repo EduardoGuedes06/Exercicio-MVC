@@ -12,37 +12,20 @@ namespace NewCentury.Service.Services
             _jogadorRepository = jogadorRepository;
         }
 
-  
-
-        public async Task Adicionar(Jogador jogador)
+        public async Task<Guid> AdicionarJogador(string nome)
         {
-            if (_jogadorRepository.Buscar(f => f.Nome == jogador.Nome).Result.Any())
+            var jogador = await _jogadorRepository.ObterJogadorPorNome(nome.ToUpper());
+            if (jogador == null)
             {
-                Notificar("Já existe um jogador com este nome infomado.");
-                return;
+                var novoJogador = new Jogador
+                {
+                    Nome = nome.ToUpper(),
+                };
+                await _jogadorRepository.Adicionar(novoJogador);
+                return novoJogador.Id;
             }
-
-            await _jogadorRepository.Adicionar(jogador);
+            return jogador.Id;
         }
-
-        public async Task Atualizar(Jogador jogador)
-        {
-            if (_jogadorRepository.Buscar(f => f.Nome == jogador.Nome).Result.Any())
-            {
-                Notificar("Já existe um jogador com este nome infomado.");
-                return;
-            }
-
-            await _jogadorRepository.Atualizar(jogador);
-        }
-
-
-        public async Task Remover(Guid id)
-        {
-
-            await _jogadorRepository.Remover(id);
-        }
-
         public async Task<string> ObterClassificacao(double taxaVitoria)
         {
             if (taxaVitoria >= 0.9)
