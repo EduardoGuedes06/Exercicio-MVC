@@ -72,7 +72,6 @@ namespace NewCentury.Controllers
             return View(partidaViewModel);
         }
 
-
         //Formulario Começo de Jogo
         [HttpPost]
         public async Task<IActionResult> JogarAsync(PartidaAtualViewModel partidaViewModel)
@@ -125,30 +124,33 @@ namespace NewCentury.Controllers
             return View(sessao);
         }
 
-
-
-
         [HttpPost]
         public async Task<IActionResult> RodadaJogoJogador(SessaoAtualViewModel sessao)
         {
             sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
             sessao.RodadaAtual = sessao.RodadaAtual + 1;
+            sessao.RodadaAntiga = sessao.RodadaAtual - 1;
+
+
+            if (sessao.RodadaAtual == 1) { sessao.MostrarModal = false; } else { sessao.MostrarModal = true; }
+
 
             if (sessao.EscolhaMaquina == sessao.EscolhaJogador)
             {
-                sessao.Situacao = sessao.PlayerInicial == "jogador" ? Domain.Models.Enum.Resultado.SUCCESS : Domain.Models.Enum.Resultado.WRONG;
+                if (sessao.PlayerInicial == "jogador") { sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS; sessao.QtdeJogador = sessao.QtdeJogador + 1; sessao.VencedorRodadaAtual = "jogador"; } else { sessao.Situacao = Domain.Models.Enum.Resultado.WRONG; sessao.QtdeMaquina = sessao.QtdeMaquina + 1; sessao.VencedorRodadaAtual = "maquina"; }                   
             }
             else
             {
-                sessao.Situacao = sessao.PlayerInicial == "jogador" ? Domain.Models.Enum.Resultado.WRONG : Domain.Models.Enum.Resultado.SUCCESS;
+                if (sessao.PlayerInicial == "jogador") { sessao.Situacao = Domain.Models.Enum.Resultado.WRONG; sessao.QtdeMaquina = sessao.QtdeMaquina + 1; sessao.VencedorRodadaAtual = "maquina"; } else { sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS; sessao.QtdeJogador = sessao.QtdeJogador + 1; sessao.VencedorRodadaAtual = "jogador"; }
             }
 
             await AuditoriaRodadaAsync(sessao);
 
 
             if (sessao.RodadaAtual == sessao.Rodadas + 1)
-            {
-                if (sessao.PlayerInicial == "maquina")
+            { 
+                sessao.loop = sessao.loop + 1;
+                if(sessao.loop == 2)
                 {
                     await _partidaService.AtualizarVencedor(sessao.partidaId);
 
@@ -163,13 +165,11 @@ namespace NewCentury.Controllers
 
 
                     return RedirectToAction("Fim", dadosPartida);
-
-                }
-
-
+                };
+                if(sessao.PlayerInicial == "maquina") { sessao.Player = "jogador"; }
+                if(sessao.PlayerInicial == "jogador") { sessao.Player = "maquina"; }
                 sessao.EscolhaJogador = 0;
                 sessao.EscolhaMaquina = 0;
-                sessao.Player = "maquina";
                 sessao.RodadaAtual = 1;
             }
 
@@ -177,114 +177,6 @@ namespace NewCentury.Controllers
 
             return RedirectToAction("Jogo", sessao);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> RodadaJogoMaquina(SessaoAtualViewModel sessao)
-        {
-            sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
-            sessao.RodadaAtual = sessao.RodadaAtual + 1;
-            if (sessao.EscolhaMaquina == sessao.EscolhaJogador)
-            {
-                sessao.Situacao = Domain.Models.Enum.Resultado.WRONG;
-                await AuditoriaRodadaAsync(sessao);
-            }
-            else
-            {
-                sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS;
-                await AuditoriaRodadaAsync(sessao);
-            }
-
-            if (sessao.RodadaAtual == sessao.Rodadas + 1)
-            {
-                if (sessao.PlayerInicial == "jogador")
-                {
-                    await _partidaService.AtualizarVencedor(sessao.partidaId);
-
-                    var dadosPartida = new FimDeJogoViewModel
-                    {
-                        NomeJogador = sessao.NomeJogador,
-                        Vencedor = await _partidaService.CalcularVencedor(sessao.partidaId),
-                        QtdeJogador = await _partidaRepository.ContarResultadosPorVencedorUsuario(sessao.partidaId),
-                        QtdeMaquina = await _partidaRepository.ContarResultadosPorVencedorMaquina(sessao.partidaId),
-                        DuracaoPartida = await _rodadaRepository.CalcularDiferencaDatasEmMinutosPorPartida(sessao.partidaId)
-                    };
-
-
-                    return RedirectToAction("Fim", dadosPartida);
-
-                }
-
-
-                sessao.EscolhaJogador = 0;
-                sessao.EscolhaMaquina = 0;
-                sessao.Player = "maquina";
-                sessao.RodadaAtual = 1;
-            }
-            return RedirectToAction("Jogo", sessao);
-        }
-
-
-
-
-        [HttpPost]
-        public async Task<IActionResult> RodadaJogo(SessaoAtualViewModel sessao)
-        {
-            sessao.EscolhaMaquina = await _gameService.GerarNumeroSecreto(sessao.Dificuldade);
-            sessao.RodadaAtual = sessao.RodadaAtual + 1;
-            if (sessao.EscolhaMaquina != sessao.EscolhaJogador)
-                {
-                    sessao.Situacao = Domain.Models.Enum.Resultado.SUCCESS;
-                    await AuditoriaRodadaAsync(sessao);
-                }
-            else
-                {
-                    sessao.Situacao = Domain.Models.Enum.Resultado.WRONG;
-                    await AuditoriaRodadaAsync(sessao);
-                }
-            if (sessao.RodadaAtual == sessao.Rodadas + 1){
-
-                if (sessao.PlayerInicial == "jogador")
-                {
-
-                    await _partidaService.AtualizarVencedor(sessao.partidaId);
-
-                    var dadosPartida = new FimDeJogoViewModel
-                    {
-                        NomeJogador = sessao.NomeJogador,
-                        Vencedor = await _partidaService.CalcularVencedor(sessao.partidaId),
-                        QtdeJogador = await _partidaRepository.ContarResultadosPorVencedorUsuario(sessao.partidaId),
-                        QtdeMaquina = await _partidaRepository.ContarResultadosPorVencedorMaquina(sessao.partidaId),
-                        DuracaoPartida = await _rodadaRepository.CalcularDiferencaDatasEmMinutosPorPartida(sessao.partidaId)
-                    };
-
-
-                    return RedirectToAction("Fim", dadosPartida);
-
-                }
-                sessao.EscolhaJogador = 0;
-                sessao.EscolhaMaquina = 0;
-                sessao.Player = "jogador";
-                sessao.RodadaAtual = 1;
-            }
-            else
-            {
-
-            }        
-            return RedirectToAction("Jogo", sessao);
-        }
-
-
-        //Placar da Rodada
-        public IActionResult FimRodada(FimDeJogoViewModel fim)
-        {
-            return View(fim);
-        }
-
-
-
-
-
-
 
         //[HttpPost]
         //public async Task<IActionResult> RodadaJogoJogador(SessaoAtualViewModel sessao)
@@ -336,6 +228,7 @@ namespace NewCentury.Controllers
         {
             return View(fim);
         }
+
         //Auditoria dos dados da partida
         public async Task AuditoriaRodadaAsync(SessaoAtualViewModel sessao)
         {

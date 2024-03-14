@@ -40,11 +40,7 @@
 <body>
     <div class="container_0">
         <h1>Bem-vindo ao Jogo de Adivinhação!</h1>
-
-        <p>Escolha as configurações para a partida:</p>
-
         <form asp-action="Jogar" asp-controller="Game" method="post">
-
             <input type="hidden" name="JogadorId" value="@Model.JogadorId" />
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -76,12 +72,7 @@
             <div style="text-align: center;">
                 <button type="submit" class="btn btn-dark mb-3"><i class="fas fa-gamepad"></i></button>
             </div>
-
         </form>
-
-
-
-
     </div>
     <div class="row">
         <br />

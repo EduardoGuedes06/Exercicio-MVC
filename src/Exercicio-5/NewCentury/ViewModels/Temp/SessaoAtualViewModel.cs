@@ -11,11 +11,12 @@ namespace NewCentury.ViewModels.Temp
         public Resultado Situacao { get; set; }
 
         //Marcadores
-
+        public bool MostrarModal { get; set; }
         public int loop {  get; set; }
         public string PlayerInicial { get; set; }
         public int Rodadas { get; set; }
         public int RodadaAtual { get; set; }
+        public int RodadaAntiga { get; set; }
         public string NomeJogador { get; set; }
 
         //Acertos
