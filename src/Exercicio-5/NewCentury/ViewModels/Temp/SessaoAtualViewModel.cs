@@ -13,14 +13,22 @@ namespace NewCentury.ViewModels.Temp
         //Marcadores
 
         public int loop {  get; set; }
-        public string Continuar { get; set; }
-
-        public string Dificuldade { get; set; }
-
         public string PlayerInicial { get; set; }
         public int Rodadas { get; set; }
         public int RodadaAtual { get; set; }
         public string NomeJogador { get; set; }
+
+        //Acertos
+        public int QtdeMaquina { get; set; }
+        public int QtdeJogador { get; set; }
+        
+        //Vencedor
+        public string VencedorRodadaAtual { get; set; }
+
+        //Finalização
+        public bool Continuar { get; set; }
+        public string Dificuldade { get; set; }
+
 
 
 

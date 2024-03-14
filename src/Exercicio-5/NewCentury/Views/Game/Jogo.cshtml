@@ -30,18 +30,28 @@
         font-weight: bold;
     }
 
+    .form-control {
+        width: 62px !important;
+    }
     .btn-primary {
         width: 100%;
     }
 </style>
-<h2>Jogo de Adivinhação</h2>
 <div class="container_0">
 
 
 
 <form asp-action="RodadaJogoJogador" method="post">
 
-                <h3>Voçe tem que adivinhar o Numero Escolhido pela Maquina</h3>
+
+                @if (Model.Player == "jogador")
+                {
+                      <h3>Adivinhe o número escolhido pela Maquina</h3>
+                }
+                @if (Model.Player == "maquina")
+                {
+                      <h3>Digite um número para a Maquina adinivnhar</h3>
+                }
 
                 <input type="hidden" name="partidaId" value="@Model.partidaId" />
                 <input type="hidden" name="Player" value="@Model.Player" />
@@ -53,23 +63,78 @@
                 <input type="hidden" name="RodadaAtual" value="@Model.RodadaAtual" />
                 <input type="hidden" name="NomeJogador" value="@Model.NomeJogador" />
 
+
                 <div class="row">
+                    <br />
                     <div class="col-md-12 text-center">
                         <ul>
-                            <li style="color: red;">Difícil: 1 a 10 </li>
-                            <li style="color: blue;">Médio: 1 a 5 </li>
-                            <li style="color: green;">Fácil: 1 e 2</li>
+                            @if (Model.Dificuldade == "FACIL")
+                            {
+                                <li style="color: green; font-size: 18px;">Fácil</li>
+                            }
+                            @if (Model.Dificuldade == "MEDIO")
+                            {
+                                <li style="color: blue; font-size: 18px;">Médio</li>
+                            }
+                            @if (Model.Dificuldade == "DIFICIL")
+                            {
+                                <li style="color: red; font-size: 18px;">Difícil</li>
+                            }
                         </ul>
+                        <br />
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="guess">Digite um número:</label>
-                    <input type="text" class="form-control" id="guess" name="EscolhaJogador" oninput="limitarEntrada()" />
+                <div class="form-group text-center">
+                        <label for="guess" class="text-center">
+                            @if (Model.Dificuldade == "FACIL")
+                            {
+                                <div>Entre com um Número 1 ou 2:</div>
+                                     <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <select class="form-control" id="guess" name="EscolhaJogador" onchange="limitarEntrada()" style="font-size: 14px; margin-left: 60px !important;">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                            }
+                            @if (Model.Dificuldade == "MEDIO")
+                            {
+                                <div>Entre com um Número entre 1 e 5:</div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                        <select class="form-control" id="guess" name="EscolhaJogador" onchange="limitarEntrada()" style="font-size: 14px; margin-left: 76px !important;">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.Dificuldade == "DIFICIL")
+                            {
+                                <div>Entre com um Número entre 1 e 10:</div>                              
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <select class="form-control" id="guess" name="EscolhaJogador" onchange="limitarEntrada()" style="font-size: 14px; margin-left: 76px !important;">
+                                            @for (int i = 1; i <= 10; i++)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            }
+                        </label>
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-dark mb-3">Confirmar</i></button>
+                    </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary">Confirmar Jogada</button>
-
                 <p class="card-text text-danger">Rodada Atual: @Model.RodadaAtual</p>
 
                 <p class="card-text text-danger">Numero de Rodadas: @Model.Rodadas</p>

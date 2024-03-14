@@ -7,14 +7,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo ao Jogo de Adivinhação!</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
 
 
         .container_0 {
-            max-width: 500px; /* Largura máxima do contêiner */
-            margin: auto; /* Centraliza o contêiner na página */
+            max-width: 500px;
+            margin: auto;
             padding: 30px;
         }
 
@@ -24,8 +23,8 @@
 
         form {
             margin-top: 30px;
-            background-color: #fff; /* Adiciona cor de fundo ao formulário */
-            padding: 20px; /* Adiciona preenchimento interno ao formulário */
+            background-color: #fff;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -39,34 +38,46 @@
         }
     </style>
 </head>
-<h2 class="text-center">Fim de Jogo</h2>
 
 <div class="container_0 mt-5">
-    @if (Model.EscolhaMaquina != 0 && Model.EscolhaJogador != 0)
-    {
+    <div class="container_0">
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="RodadaJogo" method="post">
+                <input type="hidden" name="partidaId" value="@Model.partidaId" />
+                <input type="hidden" name="EscolhaJogador" value="@Model.EscolhaJogador" />
+                <input type="hidden" name="EscolhaMaquina" value="@Model.EscolhaMaquina" />
+                <input type="hidden" name="Player" value="@Model.Player" />
+                <input type="hidden" name="Situacao" value="@Model.Situacao" />
+                <input type="hidden" name="loop" value="@Model.loop" />
+                <input type="text" name="QtdeMaquina" value="@Model.QtdeMaquina" />
+                <input type="text" name="QtdeJogador" value="@Model.QtdeJogador" />
+                <input type="hidden" name="VencedorRodadaAtual" value="@Model.VencedorRodadaAtual" />
+                <input type="text" name="Continuar" value="@Model.Continuar" />
+                <input type="hidden" name="Dificuldade" value="@Model.Dificuldade" />
+                <input type="hidden" name="PlayerInicial" value="@Model.PlayerInicial" />
+                <input type="hidden" name="Rodadas" value="@Model.Rodadas" />
+                <input type="hidden" name="RodadaAtual" value="@Model.RodadaAtual" />
+                <input type="hidden" name="NomeJogador" value="@Model.NomeJogador" />
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Valor Jogado</h5>
-                <p class="card-text">Jogador: @Model.EscolhaJogador</p>
-                <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
-            </div>
-            <div class="card-body">
+                <h5 class="card-title">Vencedor da Rodada:</h5>
+                <p class="card-text"><h2>@Model.VencedorRodadaAtual</h2></p>
 
-                @if (Model.EscolhaJogador == Model.EscolhaMaquina)
-                {
-                    <p class="card-text text-success">Você ganhou! A máquina perdeu.</p>
-                }
-                else
-                {
-                    <p class="card-text text-danger">Você perdeu! A máquina ganhou.</p>
-                }
-                <h5 class="card-title">Valor Jogado</h5>
-                <p class="card-text">Jogador: @Model.EscolhaJogador</p>
-                <p class="card-text">Máquina: @Model.EscolhaMaquina</p>
-            </div>
+                <h5 class="card-title">Quantidade de Vítorias do Jogador:</h5>
+                <p class="card-text">@Model.QtdeJogador</p>
+
+                <h5 class="card-title">Quantidade de Vítorias da Máquina:</h5>
+                <p class="card-text">@Model.QtdeMaquina</p>
+
+                <div class="card-body text-center">
+                    <button type="submit" class="btn btn-dark mb-3">Continuar</button>
+                </div>
+            </form>
 
 
         </div>
-    }
+
+    </div>
+
 </div>
